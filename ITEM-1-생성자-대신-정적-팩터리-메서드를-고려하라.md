@@ -22,7 +22,7 @@
 
 > ex) BigInteger(int, int, Random) vs BigInteger.probablePrime<br>
 
-BigInteger(int, int, Random) 와 BigInteger.probablePrime 중 어느 쪽이 BigInteger 타입의 가능한 소수를 반환한다.  를 더 잘 설명하는지 비교해보자.  BigInteger.probablePrime 은 java4 에서 추가됐다. <br>
+`BigInteger(int, int, Random)` 와 `BigInteger.probablePrime` 중 어느 쪽이 `BigInteger 타입의 가능한 소수를 반환한다.`  를 더 잘 설명하는지 비교해보자.  `BigInteger.probablePrime` 은 java4 에서 추가됐다. <br>
 
 **정적 팩터리 메서드를 사용할 경우의 장점**<br>
 
