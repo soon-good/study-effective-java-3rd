@@ -1,5 +1,11 @@
 > 여기서 이야기하는 정적 팩터리 메서드는 디자인 패턴에서 이야기하는 팩터리 메서드(Factory Method)가 아니다. 디자인 패턴에는 여기서 이야기하는 정적 팩터리 메서드 패턴이 없다.
 
+## 핵심정리
+
+정적 팩터리 메서드와 public 생성자는 각자의 쓰임새가 있다. 따라서 각각의 상대적인 장단점을 이해하고 사용하는 것이 좋다. 정적 팩터리를 사용하는 게 유리한 경우가 더 많은 경우도 있기때문에, 무작정 pubilc 생성자를 제공하던 습관이 있다면 고치자.<br>
+
+<br>
+
 ## 장점
 
 다섯가지의 장점이 있다.
@@ -218,16 +224,44 @@ API를 사용하는 입장에서 위에 나열한 것들 중 세번째 요소인
 
 - 정적 팩터리 메서드는 프로그래머가 찾기 어렵다.
 
-  - 네이밍 컨벤션 적용
+  - 자바독 처리도 적용되지 않고, API 설명에도 명확히 드러나지 않는다. 따라서 잘 알려진 네이밍 컨벤션을 사용하고, API문서도 잘 작성해놓아야 한다.
+
+  - 생성자의 경우는 API 설명에 명확히 드러나지만, 정적 팩터리 메서드는 API 설명에 명확히 드러나지 않는다.
+  - 이런 이유로 정적 팩터리 메서드 방식 클래스를 인스턴스화할 방법을 알아내야 한다. 자바독에서도 이것을 처리해주지 못한다.
+  - 따라서 API 문서를 잘 써놓고 메서드 이름도 널리 알려진 규약을 따라 짓는 방식으로 문제를 완화해줘야 한다.
 
 <br>
 
-**1 ) 상속을 하려면 public 이나 protected 생성자가 필요하니 정적 팩터리 메서드만 제공하면 하위 클래스를 만들 수 없다.**<br>
+## 네이밍 컨벤션
+
+- `from` 
+  - 매개변수를 하나 받아서 해당 타입의 인스턴스를 반환하는 형변환 메서드에 사용
+  - ex) `Date d = Date.from(instant)`
+- `of` 
+  - 여러 매개변수를 받아 적합한 타입의 인스턴스를 반환하는 집계메서드
+  - ex) `Set<Rank> faceCards = EnumSet.of(JACK, QUEEN, KING)` 
+- valueOf
+  - from 과 of 의 더 자세한 버전
+  - ex) `BigInteger prime = BigInteger.valueOf(Integer.MAX_VALUE)` 
+- instance, getInstance
+  - (매개변수를 받는다면) 매개변수로 명시한 인스턴스를 반환하지만, 같은 인스턴스임을 보장하지는 않는다.
+  - ex) `StackWalker Luke = StackWalker.getInstance(options)` 
+- create, newInstance
+  - instance 혹은 getInstance와 같지만 매번 새로운 인스턴스를 생성해 반환함을 보장한다.
+  - ex) `Object newArray = Array.newInstance(classObject, arrayLen)`
+- getType
+  - getInstance와 같으나, 생성할 클래스가 아닌 다른 클래스에 팩터리 메서드를 정의할 때 쓴다.
+  - `Type` 은 팩터리 메서드가 반환할 객체의 타입이다.
+  - ex) `FileStore fs = Files.getFileStore(path)` 
+
+- newType
+  - newInstance 와 같지만, 생성할 클래스가 아닌 다른 클래스에 팩터리 메서드를 정의할 때 사용한다.
+  - `Type` 은 팩터리 메서드가 반환할 객체의 타입이다.
+  - ex) `BufferedReader br = Files.newBufferedReader(path)` 
+
+- type
+  - getType과 newType 의 간결한 버전
+  - ex) `List<Complaint> litany = Collections.list(legacyLitany)` 
 
 <br>
 
-**2 ) 정적 팩터리 메서드는 프로그래머가 찾기 어렵다.**<br>
-
-<br>
-
-네이밍 컨벤션들

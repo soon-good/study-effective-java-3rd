@@ -33,7 +33,7 @@
 2장 객체 생성과 파괴<br>
 
 - [아이템 1 - 생성자 대신 정적 팩터리 메서드를 고려하라](https://github.com/gosgjung/study-effective-java-3nd/blob/main/ITEM-1-%EC%83%9D%EC%84%B1%EC%9E%90-%EB%8C%80%EC%8B%A0-%EC%A0%95%EC%A0%81-%ED%8C%A9%ED%84%B0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EA%B3%A0%EB%A0%A4%ED%95%98%EB%9D%BC.md)
-  - 작성중 (2021-10-01 ~. )
+  - 정리완료 (2021.10.19)
 - 아이템 2 - 생성자에 매개변수가 많다면 빌더를 고려하라
 - 아이템 3 - private 생성자나 열거 타입으로 싱글턴임을 보증하라
 - 아이템 4 - 인스턴스화를 막으려거든 private 생성자를 사용하라
