@@ -8,16 +8,19 @@
 
 ## Useful Links
 
-동영상 강의
-
-- 백기선님, 이펙티브 자바 강의 : [https://www.youtube.com/watch?v=X7RXP6EI-5E&list=PLfI752FpVCS8e5ACdi5dpwLdlVkn0QgJJ](https://www.youtube.com/watch?v=X7RXP6EI-5E&list=PLfI752FpVCS8e5ACdi5dpwLdlVkn0QgJJ)
-
 깃허브 저장소
 
+- 저자 (조슈아 블로크) 깃허브 저장소
+  - [https://github.com/jbloch/effective-java-3e-source-code](https://github.com/jbloch/effective-java-3e-source-code)
+  - Java 개발을 해본 사람이라면 누구든 들어봤을 유명한 분. effective 시리즈는 모두 해당 언어에서 유명한 분들이 저술하는 듯해보인다.
 - 한국어판 깃허브 저장소
   - [github.com/WegraLee/effective-java-3e-source-code](https://github.com/WegraLee/effective-java-3e-source-code)
   - 역자가 제공해주시는 깃허브 저장소다.
   - 원서 출간 후 반년이 지나도록 저자가 예제 소스를 공개하지 않다가 8개월 째에 소스가 공개되었다고 한다. 위의 링크는 한국어판 예제 코드 저장소다.
+
+동영상 강의
+
+- 백기선님, 이펙티브 자바 강의 : [https://www.youtube.com/watch?v=X7RXP6EI-5E&list=PLfI752FpVCS8e5ACdi5dpwLdlVkn0QgJJ](https://www.youtube.com/watch?v=X7RXP6EI-5E&list=PLfI752FpVCS8e5ACdi5dpwLdlVkn0QgJJ)
 
 번역용어 해설
 
@@ -34,17 +37,17 @@
 
 - [아이템 1 - 생성자 대신 정적 팩터리 메서드를 고려하라](https://github.com/gosgjung/study-effective-java-3nd/blob/main/ITEM-1-%EC%83%9D%EC%84%B1%EC%9E%90-%EB%8C%80%EC%8B%A0-%EC%A0%95%EC%A0%81-%ED%8C%A9%ED%84%B0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EA%B3%A0%EB%A0%A4%ED%95%98%EB%9D%BC.md)
   - 정리완료 (2021.10.19)
-- 아이템 2 - 생성자에 매개변수가 많다면 빌더를 고려하라
+- [아이템 2 - 생성자에 매개변수가 많다면 빌더를 고려하라](https://github.com/gosgjung/study-effective-java-3nd/blob/develop/ITEM-2-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90-%EB%A7%A4%EA%B0%9C%EB%B3%80%EC%88%98%EA%B0%80-%EB%A7%8E%EB%8B%A4%EB%A9%B4-%EB%B9%8C%EB%8D%94%EB%A5%BC-%EA%B3%A0%EB%A0%A4%ED%95%98%EB%9D%BC.md)
   - 정리완료(2021.10.24)
-- 아이템 3 - private 생성자나 열거 타입으로 싱글턴임을 보증하라
+- [아이템 3 - private 생성자나 열거 타입으로 싱글턴임을 보증하라](https://github.com/gosgjung/study-effective-java-3nd/blob/develop/ITEM-3-private-%EC%83%9D%EC%84%B1%EC%9E%90%EB%82%98-%EC%97%B4%EA%B1%B0%ED%83%80%EC%9E%85%EC%9C%BC%EB%A1%9C-%EC%8B%B1%EA%B8%80%ED%84%B4%EC%9E%84%EC%9D%84-%EB%B3%B4%EC%A6%9D%ED%95%98%EB%9D%BC.md)
   - 정리 중, 90% 완료. 몇가지 요약만 추가하고 마무리 예정
-- 아이템 4 - 인스턴스화를 막으려거든 private 생성자를 사용하라
+- [아이템 4 - 인스턴스화를 막으려거든 private 생성자를 사용하라](https://github.com/gosgjung/study-effective-java-3nd/blob/develop/ITEM-4-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4%ED%99%94%EB%A5%BC-%EB%A7%89%EC%9C%BC%EB%A0%A4%EA%B1%B0%EB%93%A0-private-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC.md)
+  - 정리 중, 차주 내지 차차주에 정리 예정. (막상 읽어보니 쉬어가는 아이템인지라...)
+- [아이템 5 - 자원을 직접 명시하지 말고 의존 객체 주입을 사용하라](https://github.com/gosgjung/study-effective-java-3nd/blob/develop/ITEM-5-%EC%9E%90%EC%9B%90%EC%9D%84-%EC%A7%81%EC%A0%91-%EB%AA%85%EC%8B%9C%ED%95%98%EC%A7%80-%EB%A7%90%EA%B3%A0-%EC%9D%98%EC%A1%B4-%EA%B0%9D%EC%B2%B4%EC%A3%BC%EC%9E%85%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC.md)
   - 정리 중, 금일 저녁 마무리 예정
-- 아이템 5 - 자원을 직접 명시하지 말고 의존 객체 주입을 사용하라
-  - 정리 중, 금일 저녁 마무리 예정
-- 아이템 6 - 불필요한 객체 생성을 피하라
+- [아이템 6 - 불필요한 객체 생성을 피하라](https://github.com/gosgjung/study-effective-java-3nd/blob/develop/ITEM-6-%EB%B6%88%ED%95%84%EC%9A%94%ED%95%9C-%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EC%9D%84-%ED%94%BC%ED%95%98%EB%9D%BC.md)
   - 정리 중, 90% 완료. 차주 중으로 마무리 예정
-- 아이템 7 - 다 쓴 객체 참조를 해제하라
+- [아이템 7 - 다 쓴 객체 참조를 해제하라](https://github.com/gosgjung/study-effective-java-3nd/blob/develop/ITEM-7-%EB%8B%A4-%EC%93%B4-%EA%B0%9D%EC%B2%B4%EC%B0%B8%EC%A1%B0%EB%A5%BC-%ED%95%B4%EC%A0%9C%ED%95%98%EB%9D%BC.md)
   - 정리중, 90% 완료. 차주 중으로 마무리 예정
 - 아이템 8 - finalizer 와 cleaner 사용을 피하라
 
@@ -83,17 +86,81 @@
 
 6장 열거타입과 애너테이션<br>
 
+- 아이템 34 - int 상수 대신 열거타입을 사용하라
+- 아이템 35 - ordinal 메서드 대신 인스턴스 필드를 사용하라
+- 아이템 36 - 비트 필드 대신 EnumSet을 사용하라
+- 아이템 37 - ordinal 인엑싱 대신 EnumMap 을 사용하라
+- 아이템 38 - 확장할 수 있는 열거타입이 필요하면 인터페이스를 사용하라
+- 아이템 39 - 명명 패턴보다 애너테이션을 사용하라
+- 아이템 40 - @Override 애너테이션을 일관되게 사용하라
+- 아이템 41 - 정의하려는 것이 타입이라면 마커 인터페이스를 사용하라
+
 7장 람다와 스트림<br>
+
+- 아이템 42 - 익명 클래스보다는 람다를 사용하라
+- 아이템 43 - 람다보다는 메서드 참조를 사용하라
+- 아이템 44 - 표준 함수형 인터페이스를 사용하라
+- 아이템 45 - 스트림은 주의해서 사용하라
+- 아이템 46 - 스트림에서는 부작용(Side Effect)이 없는 함수를 사용하라
+- 아이템 47 - 반환 타입으로는 스트림보다 컬렉션이 낫다
+- 아이템 48 - 스트림 병렬화는 주의해서 적용하라
 
 8장 메서드<br>
 
+- 아이템 49 - 매개변수가 유효한지 검사하라
+- 아이템 50 - 적시에 방어적 복사본을 만들라
+- 아이템 51 - 메서드 시그니처를 신중히 설계하라
+- 아이템 52 - 다중 정의는 신중히 사용하라
+- 아이템 53 - 가변인수는 신중히 사용하라
+- 아이템 54 - null 이 아닌, 빈 컬렉션이나 배열을 반환하라
+- 아이템 55 - 옵셔널 반환은 신중히 하라
+- 아이템 56 - 공개된 API 요소에는 항상 문서화 주석을 작성하라
+
 9장 일반적인 프로그래밍 원칙<br>
+
+- 아이템 57 - 지역변수의 범위를 최소화하라
+- 아이템 58 - 전통적인 for 문 보다는 for-each 문을 사용하라
+- 아이템 59 - 라이브러리를 익히고 사용하라
+- 아이템 60 - 정확한 답이 필요하다면 float와 double 은 피하라
+- 아이템 61 - 박싱된 기본타입보다는 기본타입을 사용하라
+- 아이템 62 - 다른 타입이 적절하다면 문자열 사용을 피하라
+- 아이템 63 - 문자열 연결은 느리니 주의하라
+- 아이템 64 - 객체는 인터페이스를 사용해 참조하라
+- 아이템 65 - 리플렉션보다는 인터페이스를 사용하라
+- 아이템 66 - 네이티브 메서드는 신중히 사용하라
+- 아이템 67 - 최적화는 신중히 하라
+- 아이템 68 - 일반적으로 통용되는 명명 규칙을 따르라
 
 10장 예외<br>
 
+- 아이템 69 - 예외는 진짜 예외 상황에만 사용하라
+- 아이템 70 - 복구할 수 있는 상황에는 검사 예외를, 프로그래밍 오류에는 런타임 예외를 사용하라
+- 아이템 71 - 필요없는 검사 예외 사용은 피하라
+- 아이템 72 - 표준 예외를 사용하라
+- 아이템 73 - 추상화 수준에 맞는 예외를 던지라
+- 아이템 74 - 메서드가 던지는 모든 예외를 문서화하라
+- 아이템 75 - 예외의 상세 메시지에 실패 관련 정보를 담으라
+- 아이템 76 - 가능한 한 실패 원자적으로 만들라
+- 아이템 77 - 예외를 무시하지 말라
+
 11장 동시성<br>
 
+- 아이템 78 - 공유 중인 가변 데이터는 동기화해 사용하라
+- 아이템 79 - 과도한 동기화는 피하라
+- 아이템 80 - 스레드보다는 실행자, 태스크, 스트림을 애용하라
+- 아이템 81 - wait 와 notify 보다는 동시성 유틸리티를 애용하라
+- 아이템 82 - 스레드 안전성 수준을 문서화하라
+- 아이템 83 - 지연 초기화는 신중히 사용하라
+- 아이템 84 - 프로그램의 동작을 스레드 스케쥴러에 기대지 말라
+
 12장 직렬화<br>
+
+- 아이템 85 - 자바 직렬화의 대안을 찾으라
+- 아이템 86 - Serializable을 구현할 지는 신중히 결정하라
+- 아이템 87 - 커스텀 직렬화 형태를 고려해보라
+- 아이템 88 - readObject 메서드는 방어적으로 작성하라
+- 아이템 89 - 인스턴스 수를 통제해야 한다면 readResolve 보다는 열거타입을 사용하라
+- 아이템 90 - 직렬화된 인스턴스 대신 직렬화 프록시 사용을 검토하라
 
 부록. 2판과의 아이템 대조표<br>
 
