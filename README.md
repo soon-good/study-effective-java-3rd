@@ -44,11 +44,12 @@
 - [아이템 4 - 인스턴스화를 막으려거든 private 생성자를 사용하라](https://github.com/gosgjung/study-effective-java-3nd/blob/develop/ITEM-4-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4%ED%99%94%EB%A5%BC-%EB%A7%89%EC%9C%BC%EB%A0%A4%EA%B1%B0%EB%93%A0-private-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC.md)
   - 정리 중, 차주 내지 차차주에 정리 예정. (막상 읽어보니 쉬어가는 아이템인지라...)
 - [아이템 5 - 자원을 직접 명시하지 말고 의존 객체 주입을 사용하라](https://github.com/gosgjung/study-effective-java-3nd/blob/develop/ITEM-5-%EC%9E%90%EC%9B%90%EC%9D%84-%EC%A7%81%EC%A0%91-%EB%AA%85%EC%8B%9C%ED%95%98%EC%A7%80-%EB%A7%90%EA%B3%A0-%EC%9D%98%EC%A1%B4-%EA%B0%9D%EC%B2%B4%EC%A3%BC%EC%9E%85%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC.md)
-  - 정리 중, 금일 저녁 마무리 예정
+  - 정리완료(2021.10.30)
+  - 마음에 드는 정도로 요약된 것은 아니지만, 이정도 까지만 요약하는게 맞겠다는 생각이 들어서 완료 처리
 - [아이템 6 - 불필요한 객체 생성을 피하라](https://github.com/gosgjung/study-effective-java-3nd/blob/develop/ITEM-6-%EB%B6%88%ED%95%84%EC%9A%94%ED%95%9C-%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EC%9D%84-%ED%94%BC%ED%95%98%EB%9D%BC.md)
   - 정리 중, 90% 완료. 차주 중으로 마무리 예정
 - [아이템 7 - 다 쓴 객체 참조를 해제하라](https://github.com/gosgjung/study-effective-java-3nd/blob/develop/ITEM-7-%EB%8B%A4-%EC%93%B4-%EA%B0%9D%EC%B2%B4%EC%B0%B8%EC%A1%B0%EB%A5%BC-%ED%95%B4%EC%A0%9C%ED%95%98%EB%9D%BC.md)
-  - 정리중, 90% 완료. 차주 중으로 마무리 예정
+  - 정리 중, 90% 완료. 차주 중으로 마무리 예정
 - 아이템 8 - finalizer 와 cleaner 사용을 피하라
 
 3장 모든 객체의 공통 메서드<br>
