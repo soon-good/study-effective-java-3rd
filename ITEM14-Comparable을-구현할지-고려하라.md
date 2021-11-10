@@ -2,6 +2,8 @@
 
 Comparable 인터페이스의 유일 무이한 compareTo 메서드에 대해 알아보자. compareTo 는 Object 의 메서드가 아니다. compareTo 는 Object 의 equals 에서 제공하는 단순 동치성 비교를 가지고 있다. 여기에 더해 1) 순서를 비교할 수 있고 2) 네네릭하다.<br>
 
+즉, compareTo 메서드는 각 필드가 동치인지를 비교하는 것이 아니라, 그 순서를 비교한다.<br>
+
 Comparable 을 구현했다는 것은 그 클래스의 인스턴스들은 자연적인 순서(natural order)가 있음을 뜻한다. Comparable 을 사용하면, Comparable 을 활용하는 수많은 제네릭 알고리즘과 컬렉션의 힘을 누릴 수 있다. 실제로 자바 플랫폼 라이브러리의 모든 값 클래스와 열거 타입(아이템 34)이 Comparable 을 구현했다.<br>
 
 알파벳, 숫자, 연대 같이 순서가 명확한 값 클래스를 작성한다면 반드시 Comparable 인터페이스를 구현하자.<br>
@@ -16,9 +18,13 @@ public interface Comparable<T>{
 
 <br>
 
+**Comparable의 compareTo 메서드와 Comparator**<br>
+
 compareTo 메서드는 각 필드가 동치인지를 비교하는 것이 아니라 그 순서를 비교한다. Comparable 을 구현하지 않은 필드나 표준이 아닌 순서로 비교해야 한다면 비교자(Comparator)를 대신 사용한다. Comparator 는 직접 만들거나 자바가 제공하는 것 중에 골라 쓰면 된다.<br>
 
 <br>
+
+Comparable 은 타입을 인수로 받는 제너릭 인터페이스이기 때문에 compareTo 메서드의 인수 타입은 컴파일 타임에 정해진다. 즉 입력인수의 타입을 확인하거나 형변환할 필요가 없다.
 
 ## 핵심정리
 
@@ -133,5 +139,20 @@ Collection, Set, Map 인터페이스들은 equals 메서드의 규약을 따른�
 
 ## compareTo 메서드 작성 요령
 
-compareTo 메서드 작성 요령은 equals 와 비슷하다. 오늘은 여기까지.
+아래의 몇가지 차이점을 제외하면 compareTo 메서드 작성 요령은 equals 와 비슷하다. 
+
+- compareTo 메서드의 인수의 타입으로 null 이 인수로 전달된다면, `NullPointerException` 을 던져야 한다.
+- Comparable 을 구현하지 않은 필드나 표준이 아닌 순서로 비교해야 한다면 비교자 (Comparator)를 대신 사용하는 것이 권장된다.
+  - Comparator 는 직접 만들어 사용하거나, Java 에서 기본으로 제공하는 것을 사용할 수 있다.
+  - 예를 들면 아래와 같은 코드가 Comparator 를 사용하는 코드다.
+
+<br>
+
+```java
+public final class CaseInsensitiveString implements Comparable<CaseInsensitiveString> {
+  public int compareTo(CaseInsensitiveString cis){
+    return String.CASE_INSENSITIVE_ORDER.compare(s, cis, s);
+  }
+}
+```
 
