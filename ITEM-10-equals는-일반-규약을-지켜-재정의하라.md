@@ -115,13 +115,26 @@ Fruit 클래스에 별도의 equals() 메서드를 오버라이딩 해두지 않
 
 ## equals() 메서드 구현시 동치관계 성립을 위해 만족해야 하는 조건들
 
-여기서는 수학적인 개념이 많이 등장한다. 저자인 조슈아블로크는 논리적으로 A와 B가 동일함을 보장할 때 수학적으로 이야기하는 개념들로 대칭성, 추이성, 반사성을 적용해서 설명해주고 있다. 일관성, null-아님 개념의 경우는 컴퓨터공학에서 자주 이야기 되는 개념으로 보인다.
+여기서는 수학적인 개념이 많이 등장한다. 저자인 조슈아블로크는 논리적으로 A와 B가 동일함을 보장할 때 수학적으로 이야기하는 개념들로 대칭성, 추이성, 반사성을 적용해서 설명해주고 있다. 일관성, null-아님 개념의 경우는 컴퓨터공학에서 자주 이야기 되는 개념으로 보인다. (예를 들면 3단 논법이라던가, A=B 이고 B=C 이면 A=C 이다 등등 그런 개념이어서 마냥 어렵다고 생각하면서 받아들이지만 않으면 금방 파악할 수 있는 개념들이다.)
 
 - 반사성(reflexivity)
+  - null 이 아닌 모든 참조값 x 에 대해 x.equals(x)는 true 다.
+
 - 대칭성(symmetry)
+  - null 이 아닌 모든 참조값 x,y 에 대해 x.equals(y)가 true 면 y.equals(x) 도 true 다.
+
 - 추이성(transitivity)
+  - null 이 아닌 모든 참조값 x,y 에 대해 x.equals(y) == true 이고, y.equals(z) == true 이면, x.equals(z) 도 true이다.
+  - 리스코프 치환원칙이란?
+  - 상속 대신 컴포지션을 사용하라
+    - 상속을 이용한 객체비교보다는, 컴포지션관계로 풀어내 equals가 가능하도록 구현
+
 - 일관성(consistency)
+  - null 아 아닌 모든 참조값 x,y 에 대해 x.equals(y) 를 반복해서 호출하면 항상 true 를 반환하거나, false 를 반환한다.
+
 - null-아님
+  - null 아 아닌 모든 참조값 x에 대해 x.equals(null) 은 false 다.
+
 
 <br>
 
@@ -143,11 +156,11 @@ public void equals1_reflexivity(){
 
 ### 대칭성 (symmetry)
 
-null 이 아닌 모든 참조값 x, y 에 대해 x.equals(y) == true 이고, y.equals(z) == true 이면 x.equals(z) 도 true 이다.<br>
+**null 아 아닌 모든 참조값 x,y 에 대해, x.equals(y) 가 true 면 y.equals(x) 도 true다.**<br>
 
 두 객체는 서로에 대한 동치 여부에 똑같이 답해야 한다는 의미다.<br>
 
-이번 개념은 언뜻 말로 이해하기에는 쉽다. 예제를 한번 보자.
+이번 개념은 언뜻 말로 이해하기에는 쉽다. 예제를 한번 보자.<br>
 
 **CaseInsensitiveString.java**<br>
 
@@ -256,13 +269,204 @@ false
 
 ### 추이성 (transitivity)
 
+**null 이 아닌 모든 참조값 x, y 에 대해 x.equals(y) == true 이고, y.equals(z) == true 이면 x.equals(z) 도 true 이다.**<br>
+
+첫 번째 객체와 두 번째 객체가 같고, 두 번째 객체와 세 번째 객체가 같다면, 첫 번째 객체와 세 번째 객체도 같아야 한다는 뜻이다.<br>
+
 <br>
 
+언뜻 보면 굉장히 당연한 이야기이고, 쉬운 문제처럼 보여 가볍게 여기기 쉬운 개념이다. 책에서는 두 가지 경우를 예로 들어 추이성이 깨지는 경우를 설명하고 있다. 사실 이런 법칙은 단순히 Java 뿐만 아니라, 다른 언어를 사용해야 할때 equals() 류의 메서드를 overridding 할 때에도 경험을 높여줄 수 있는 요소인것 같다.<bR>
+
+좌표를 표현하는 Point 라는 클래스가 있다고 하자. 그런데, 여기에 색상정보까지 포함하고 있는 ColorPoint 라는 클래스가 있다. ColorPoint 클래스는 Point 클래스를 상속하고 있다. 따라서 ColorPoint 클래스에 별다른 오버라이딩을 하지 않는 다면, ColorPoint 클래스의 equals() 메서드는 Point 클래스의 equals() 메서드를 사용하게 된다.<br>
+
+이때 ColorPoint 클래스로 다른 Point 타입의 객체와 equals 연산을 할 수 있는 방법은 있을까?<br>
+
+**클래스를 확장(extends - 상속)하는 방식으로 equals() 를 만족시키려 할 경우**<br>
+
+결론부터 말하자면 구체 클래스를 확장(extends - 상속)하는 방식으로는 새로운 값을 추가하면서 equals 규약을 만족시킬 방법은 존재하지 않는다. 이 규칙이 어떤 때에 안맞고, 안맞는 경우들에 대한 설명은 아래에 따로 예시로 정리해두기로 했다.<br>
+
+**상속 대신 컴포지션을 사용할 경우(아이템 18)**<br>
+
+괜찮은 우회방법이다. **Point를 상속(확장 - extends)하는 대신 Point 를 ColorPoint 의 private 필드로 두고**, ColorPoint 와 같은 위치의 Point 를 반환하는 **뷰(view) 메서드(아이템 6)를 public 으로 추가하는 방식**이다.<br>
+
+이 경우 역시 예제로 정리해두었다. 가끔 이런 경우를 보면, 어떤 문제를 어려워보이게 집착해서 풀기보다는 현명하게 우회해서 다른 예외의 경우는 제외하고올바른 비교를 하게끔 유도하는 방식으로 풀어내는 경우가 있다는 생각이 든다. 이렇게 view 메서드로 형변환을 해서 직접 올바른 타입을 사용해 비교하도록 유도하는 방식은 다른 언어에서도 유연하게 적용이 가능한 방식인 것 같고, 다른 언어에서도 경험이 많은 프로그래머가 비슷한 방식으로 정리한 내용들이 있지 않을까 싶다.(조슈아 블로크라는 자바의 아버지 격인 저자가 설명해주었듯이.)<br>
+
+<br>
+
+**리스코프 치환원칙**<br>
+
+리스코프 치환원칙에 대해서도 설명이 나오는데, 여기에 따로 요약해서 정리 예정. (예제는 따로 정리하지 않을 예정이다.)<br>
+
+<br>
+
+#### case 1) 대칭성을 위배하는 경우
+
+내용 정리... 이번 주 내 차츰 정리 예졍
+
+```java
+public enum Color { RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET }
+
+class Point{
+  private final int x;
+  private final int y;
+
+  public Point(int x, int y){
+    this.x = x;
+    this.y = y;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if(!(o instanceof Point)) return false;
+    Point p = (Point) o;
+    return p.x == x && p.y == y;
+  }
+}
+
+class ColorPoint1 extends Point{
+  private final Color color;
+
+  public ColorPoint1(int x, int y, Color color){
+    super(x, y);
+    this.color = color;
+  }
+
+  // 대칭성 위배.
+  // Point 를 ColorPoint 와 비교한 결과와 이 둘을 비교한 결과가 다를 수 있다.
+  // point.equals(cp) 는 true, 
+  // cp.equals(point) 는 false 를 반환할 수 있다.
+  @Override
+  public boolean equals(Object o) {
+    // 오직 ColorPoint 객체일 경우에 대해서만 비교를 수행할 수 있도록 필터링 로직을 추가
+    if(!(o instanceof ColorPoint1)) return false;
+    return super.equals(o) && ((ColorPoint1) o).color == color;
+  }
+}
+```
+
+
+
+#### case 2) 추이성을 위배하는 경우
+
+내용 정리... 이번 주 내 차차 정리 예졍
+
+```java
+public enum Color { RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET }
+
+class Point{
+  private final int x;
+  private final int y;
+
+  public Point(int x, int y){
+    this.x = x;
+    this.y = y;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if(!(o instanceof Point)) return false;
+    Point p = (Point) o;
+    return p.x == x && p.y == y;
+  }
+  
+  // ColorPoint 의 equals 가 Point 와 비교할 때는 색상을 무시하도록 하는 경우
+	// 추이성에 위배된다.
+	// ColorPoint p1 과 Point p2 를 비교 == true
+	// Point p2 와 ColorPoint p3 를 비교 == true
+	// but, p1.equals(p3) == false
+	class ColorPoint2 extends Point{
+		private final Color color;
+
+		public ColorPoint2(int x, int y, Color color){
+			super(x,y);
+			this.color = color;
+		}
+
+
+		@Override
+		public boolean equals(Object o) {
+			if (!(o instanceof Point)) return false;
+
+			if (!(o instanceof ColorPoint2)) return o.equals(this);
+
+			return super.equals(o) && ((ColorPoint2) o).color == color;
+		}
+	}
+}
+
+```
+
+<br>
+
+#### case 3) 상속 대신 컴포지션을 사용해, 별도의 객체를 사용해 equals 를 수행하도록 유도하기
+
+내용 정리... 이번 주 내 차차 정리 예졍<br>
+
+asPoint() 같은 함수를 통해 형변환을 수행하고, 변환된 타입과 비교하려는 객체를 비교하도록 하는 방식이다.
+
+```java
+public enum Color { RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET }
+
+class Point{
+  private final int x;
+  private final int y;
+
+  public Point(int x, int y){
+    this.x = x;
+    this.y = y;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if(!(o instanceof Point)) return false;
+    Point p = (Point) o;
+    return p.x == x && p.y == y;
+  }
+}
+
+// 상속대신 컴포지션을 사용한다.
+class ColorPoint3 {
+  private final Point point;
+  private final Color color;
+
+  public ColorPoint3(int x, int y, Color color){
+    point = new Point(x, y);
+    this.color = Objects.requireNonNull(color);
+  }
+
+  public Point asPoint(){
+    return point;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if(!(o instanceof ColorPoint3)) return false;
+    ColorPoint3 cp = (ColorPoint3)o;
+    return cp.point.equals(point) && cp.color.equals(color);
+  }
+
+  @Override
+  public int hashCode() {
+    return 31 * point.hashCode() + color.hashCode();
+  }
+}
+```
+
+<br>
+
+
+
 ### 일관성(consistency)
+
+**null 이 아닌 모든 참조값 x,y 에 대해 x.equals(y) 를 반복해서 호출하면, 항상 true를 반환하거나 항상 false 를 반환한다.**<br>
 
 <br>
 
 ### null-아님
+
+**null 이 아닌 모든 참조값 x 에 대해 x.equals(null) 은 false 다.**<br>
+
+
 
 <br>
 
