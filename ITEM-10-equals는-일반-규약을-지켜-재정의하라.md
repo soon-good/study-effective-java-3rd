@@ -275,15 +275,21 @@ false
 
 <br>
 
-언뜻 보면 굉장히 당연한 이야기이고, 쉬운 문제처럼 보여 가볍게 여기기 쉬운 개념이다. 책에서는 두 가지 경우를 예로 들어 추이성이 깨지는 경우를 설명하고 있다. 사실 이런 법칙은 단순히 Java 뿐만 아니라, 다른 언어를 사용해야 할때 equals() 류의 메서드를 overridding 할 때에도 경험을 높여줄 수 있는 요소인것 같다.<bR>
+언뜻 보면 굉장히 당연한 이야기이고, 쉬운 문제처럼 보여 가볍게 여기기 쉬운 개념이다. 책에서는 두 가지 경우를 예로 들어 추이성이 깨지는 경우를 설명하고 있다. 사실 이런 법칙은 단순히 Java 뿐만 아니라, 다른 언어를 사용해야 할때 equals() 류의 메서드를 overridding 할 때에도 경험을 높여줄 수 있는 요소인것 같다.<br>
+
+**클래스 확장(extends - 상속)시에 equals()를 하위타입과 비교시, 추이성은 보존될까 ? **<br>
 
 좌표를 표현하는 Point 라는 클래스가 있다고 하자. 그런데, 여기에 색상정보까지 포함하고 있는 ColorPoint 라는 클래스가 있다. ColorPoint 클래스는 Point 클래스를 상속하고 있다. 따라서 ColorPoint 클래스에 별다른 오버라이딩을 하지 않는 다면, ColorPoint 클래스의 equals() 메서드는 Point 클래스의 equals() 메서드를 사용하게 된다.<br>
 
 이때 ColorPoint 클래스로 다른 Point 타입의 객체와 equals 연산을 할 수 있는 방법은 있을까?<br>
 
+<br>
+
 **클래스를 확장(extends - 상속)하는 방식으로 equals() 를 만족시키려 할 경우**<br>
 
 결론부터 말하자면 구체 클래스를 확장(extends - 상속)하는 방식으로는 새로운 값을 추가하면서 equals 규약을 만족시킬 방법은 존재하지 않는다. 이 규칙이 어떤 때에 안맞고, 안맞는 경우들에 대한 설명은 아래에 따로 예시로 정리해두기로 했다.<br>
+
+<br>
 
 **상속 대신 컴포지션을 사용할 경우(아이템 18)**<br>
 
@@ -300,8 +306,6 @@ false
 <br>
 
 #### case 1) 대칭성을 위배하는 경우
-
-내용 정리... 이번 주 내 차츰 정리 예졍
 
 ```java
 public enum Color { RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET }
@@ -344,7 +348,40 @@ class ColorPoint1 extends Point{
 }
 ```
 
+위 코드는 ColorPoint 타입 입장에서 Point 타입 객체는 배제하고 오직 ColorPoint 만을 비교해 ColorPoint 타입의 객체에 한해서만 equals() 가 성립되도록 하는 코드다.<br>
 
+위 코드에 대해서 아래와 같이 객체를 만들어서 비교를 수행한다고 해보자.
+
+```java
+@Test
+public void 테스트_잘못된코드_대칭성위배(){
+  Point p = new Point(1,2);
+  ColorPoint1 cp = new ColorPoint1(1,2,Color.BLUE);
+
+  System.out.println("p.equals(cp) == " + p.equals(cp));
+  System.out.println("cp.equals(p) == " + cp.equals(p));
+}
+```
+
+출력결과는 아래와 같다. 대칭성에 위배되어 버렸다.
+
+```
+p.equals(cp) == true
+cp.equals(p) == false
+```
+
+<br>
+
+- p.equals(cp) == true
+  - Point 타입  p 입장에서는 ColorPoint 객체는 그냥 Point 타입처럼 보일 뿐이다. 따라서 Point 의 equals를 수행하므로 true 가 반환된다.
+- cp.equals(p) == false
+  - equals 내에서 ColorPoint 타입의 객체가 아니면 무조건 false 를 반환하도록 했다.
+  - 즉, ColorPoint 는 오직 ColorPoint 와 비교하기 위해 ColorPoint 이외의 객체가 올때는 false 를 반환하도록 했다.
+  - 따라서 ColorPoint 입장에서 Point 타입 객체는 다른 타입의 객체이므로 false 를 반환한다.
+
+<br>
+
+오늘은 여기까지. 실서버 장중 디버깅을 해야해서, 일찍 자야 한다. 이 글 쓰는데에 30분 정도 사용됐지만, 아깝지는 않다. <br>
 
 #### case 2) 추이성을 위배하는 경우
 
