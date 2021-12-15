@@ -381,9 +381,9 @@ cp.equals(p) == false
 
 <br>
 
-오늘은 여기까지. 실서버 장중 디버깅을 해야해서, 일찍 자야 한다. 이 글 쓰는데에 30분 정도 사용됐지만, 아깝지는 않다. <br>
-
 #### case 2) 추이성을 위배하는 경우
+
+
 
 내용 정리... 이번 주 내 차차 정리 예졍
 
@@ -432,6 +432,46 @@ class Point{
 }
 
 ```
+
+<br>
+
+추이성을 지키려면 위의 코드는 아래와 같은 조건을 만족해야 한다.<br>
+
+> - ColorPoint 타입 p1 과 Point 타입 p2 가 같고, <br>
+>
+> - Point 타입 p2 와 ColorPoint 타입 p3가 같을 경우<br>
+> - p1과 p3 는 같아야 한다.<br>
+
+<br>
+
+하지만, 위의 코드는 추이성을 지키지 못한다.<br>
+
+테스트 코드를 보자.<br>
+
+```java
+@Test
+public void 테스트_잘못된코드_추이성위배(){
+  ColorPoint2 p1 = new ColorPoint2(1, 2, Color.RED);
+  Point p2 = new Point(1,2);
+  ColorPoint2 p3 = new ColorPoint2(1, 2, Color.BLUE);
+
+  System.out.println("p1.equals(p2) ==> " + p1.equals(p2));
+  System.out.println("p2.equals(p3) ==> " + p2.equals(p3));
+  System.out.println("p1.equals(p3) ==> " + p1.equals(p3));
+}
+```
+
+출력결과는 아래와 같다.<br>
+
+```
+p1.equals(p2) ==> true
+p2.equals(p3) ==> true
+p1.equals(p3) ==> false
+```
+
+p1 == p3 를 만족시키지 못하게 되어 버렸다.<br>
+
+오늘도 여기까지. 미국주식 야간 모니터링 + 차기버전 개발을 하면서 30분 정도 시간을 낼 수 있어서 잠깐 책을 읽고나서 짤막하게나마 정리를 했다.<br>
 
 <br>
 
