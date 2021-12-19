@@ -269,6 +269,14 @@ false
 
 ### 추이성 (transitivity)
 
+#### 참고) 자바 라이브러리에서 추이성이 깨지는 사례
+
+구체 클래스 하나를 확장(extends - 상속) 해서 새로운 자식 클래스와 구체클래스간 equals 연산을 성립시키려 할 때 추이성이 깨질 수밖에 없다. 그런데, 자바 라이브러리에 구체 클래스를 확장해 값을 추가해서 equals 연산시 추이성이 깨지는 클래스가 종종 있다. 저자는 이런 클래스들을 이용해 equals 연산을 수행하지 않을 것을 이야기 해주고 있다.<br>
+
+`java.sql.Timestamp` 클래스는 `java.util.Date` 클래스를 확장했다. 그리고 `java.sql.Timestamp` 클래스 내에는 nanoseconds 필드가 있다. 그 결과로 Timestamp 의 equals 는 **대칭성을 위배**해 Date 객체와 한 컬렉션에 넣커나 섞어서 사용하면 엉뚱하게 동작할 가능성이 있다. 이런 이유로 Timestamp 의 API 설명에는 Date 와 섞어 쓸 때의 주의사항을 언급하고 있다. 자칫 실수하면 디버깅하기 어려운 이상한 오류를 경험하게 될 수 있다. 따라서 Timestamp 와 Date 객체가 섞이지 않도록 주의해야 한다. <br>
+
+
+
 **null 이 아닌 모든 참조값 x, y 에 대해 x.equals(y) == true 이고, y.equals(z) == true 이면 x.equals(z) 도 true 이다.**<br>
 
 첫 번째 객체와 두 번째 객체가 같고, 두 번째 객체와 세 번째 객체가 같다면, 첫 번째 객체와 세 번째 객체도 같아야 한다는 뜻이다.<br>
@@ -383,10 +391,6 @@ cp.equals(p) == false
 
 #### case 2) 추이성을 위배하는 경우
 
-
-
-내용 정리... 이번 주 내 차차 정리 예졍
-
 ```java
 public enum Color { RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET }
 
@@ -471,15 +475,82 @@ p1.equals(p3) ==> false
 
 p1 == p3 를 만족시키지 못하게 되어 버렸다.<br>
 
-오늘도 여기까지. 미국주식 야간 모니터링 + 차기버전 개발을 하면서 30분 정도 시간을 낼 수 있어서 잠깐 책을 읽고나서 짤막하게나마 정리를 했다.<br>
+<br>
+
+####  case 3) instanceof 비교 대신 getClass 로 비교를 할 경우
+
+이 경우 리스코프 치환원칙을 위배하게 된다.<br>
+
+**리스코프 치환원칙이란?**<br>
+
+>  어떤 타입에 있어 중요한 속성이라면 그 하위 타입에서도 마찬가지로 중요하다. 
+
+문장만 봐서는 정말 무슨 이야기인가 싶다. 예를 들어 정리해보면 이렇다.
+
+- Fruit 라는 클래스(=타입)이 있다고 해보자. 그리고 이 Fruit 클래스(타입)을 상속받는 Mango 클래스가 있다고 해보자. 이 Fruit 클래스에 만약 price 라는 속성이 중요하다고 해보자. 
+- 이때 Fruit 클래스에서 price 속성이 중요하면, Mango 클래스 역시도 price 속성이 중요해야 한다는 의미다.
+
+<br>
+
+정리해보면, 리스코프 치환원칙이 지켜져야 한다는 것은  
+
+- Fruit 타입이 가진 모든 메서드는 하위 타입인 Mango 클래스에서도 똑같이 정상적으로 작동해야 한다는 것
+
+을 의미한다.<br>
+
+<br>
+
+**instanceof 대신 getClass 를 사용할 경우**<br>
+
+지금까지 Point 클래스를 사용해서 instanceof 를 사용해 equals 를 구현할 때 확장 클래스에 추이성을 지키려 했다가 추이성이 지켜지지 않았었다. <br>
+
+instanceof 가 안되니 getClass 로 했을때도 되는지 확인해볼 수 있겠다. 결론만 말하자면 getClass 를 사용하는 코드를 사용할경우 추이성이 지켜지지 않는다. 이때 리스코프 원칙에 위배되게 된다.<br>
+
+예를 들면 아래와 같은 equals 구문이 있다고 해보자. 지금까지는 equals() 내에서 instanceof 연산을 사용했었는데, 이번에는 instanceof 대신 getClass 를 사용한다.
+
+**ex) instanceof 대신 getClass() 를 equals() 에서 사용하는 예**
+
+```java
+@Override
+public boolean equals(Object o){
+  if(o == null || o.getClass() != getClass())
+    return false;
+  Point p = (Point) o;
+  return p.x == x && p.y == y;
+}
+```
+
+<br>
+
+위의 equals 는 같은 구현 클래스의 객체와 비교할 때만 true 를 리턴한다. 즉, io.fruit.Fruit 와 io.fruit.Fruit 타입의 객체를 비교할때만 true 이고, io.fuit.Fruit 와 io.fruit.Mango를 비겨할 때는 false 를 반환한다.<br>
+
+위의 예제에서 살펴본 Point 의 하위 클래스는 정의상 여전히 Point 로 취급된다. ColorPoint도 Point 변수로 받으면 Point 로 취급받게 된다. 그런데, 이번 예제에서 사용한 getClass() 를 이용한 equals 에서는 Point p == ColorPoint cp 가 성립되지 않는다. 추이성 연산을 시작하기도 전에 깨진다. 이것을 리스코프 원칙을 위배한다고 의미한다.<br>
+
+책에서는 아래의 예제를 하나 더 설명하고 있다. 그런데, 이번 문서에서는 생략하려 한다.<br>
 
 <br>
 
 #### case 3) 상속 대신 컴포지션을 사용해, 별도의 객체를 사용해 equals 를 수행하도록 유도하기
 
-내용 정리... 이번 주 내 차차 정리 예졍<br>
+>  asPoint() 같은 함수를 통해 형변환을 수행하고, 변환된 타입과 비교하려는 객체를 비교하도록 하는 방식이다.
 
-asPoint() 같은 함수를 통해 형변환을 수행하고, 변환된 타입과 비교하려는 객체를 비교하도록 하는 방식이다.
+**상속관계의 객체들간의 equals 연산을 성립시키려 할 때 추이성을 지키기는 쉽지 않다.**<br>
+
+지금까지 살펴본 색상이 적용된 Point 객체인 ColorPoint 와 일반 좌표를 표현하는 객체인 Point 간의 값 비교 연산은 서로 가지고 있는 변수가 다르기에 추이성을 지키기 쉽지 않았었다. 추이성이 뭔지 다시 한번 정리해보면 이런 개념이다.<br>
+
+> x == y 이고 y==z 이면, x == z 이다. 
+
+라는 개념이다. 결론부터 이야기 하자면, 이 추이성이라는 개념을 상속 개념으로는 지키기가 쉽지 않다.<br>
+
+즉, 구체클래스를 확장(extends - 상속)해서 새로운 클래스를 정의해서 그 안에 새로운 값을 추가했을때, equals 규약을 만족시킬 방법은 존재하지 않는다.<br>
+
+이런 현상은 모든 객체 지향 언어에서 동치 관계를 구현하려고 할때 나타나는 근본적인 문제다. <br>(cpp 에서도 동일한 문제가 나타날 수 다고 생각하니, 덜 억울하다)<br>
+
+어찌 보면 수학의 집합간의 대응 등등 관련된 그런 문제하고 관련 있는 것 같은 원리라는 생각은 들었는데, 1회차 정리본에서 그리 깊게 생각하고 싶지 않다.<br>
+
+**상속 대신 컴포지션을 사용하라 (아이템 18)**<br>
+
+Point 를 상속받는 대신 Point 인스턴스를 ColorPoint 클래스 내의 멤버필드로 선언해둔다. 그리고 ColorPoint 내에서 일반 좌표계 Point 를 반환하는 뷰 (view) 메서드를 public 으로 추가하는 방식이다.
 
 ```java
 public enum Color { RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET }
@@ -535,9 +606,12 @@ class ColorPoint3 {
 
 ### 일관성(consistency)
 
-**null 이 아닌 모든 참조값 x,y 에 대해 x.equals(y) 를 반복해서 호출하면, 항상 true를 반환하거나 항상 false 를 반환한다.**<br>
+- **null 이 아닌 모든 참조값 x,y 에 대해 x.equals(y) 를 반복해서 호출하면, 항상 true를 반환하거나 항상 false 를 반환한다.**<br>
+- e두 객체가 같다면 앞으로도 영원히 같아야 한다. (단, 어느 하나 혹은 두 객체 모두가 수정되지 않는 한)
 
 <br>
+
+내일 정리 빠샤빠샤
 
 ### null-아님
 
