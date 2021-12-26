@@ -11,6 +11,123 @@ equals() 관련 챕터인 이번 장은 너무 엄청나게 매우 길어서, 3�
 
 <br>
 
+## 다른 챕터 참고
+
+- 아이템 11- equals 를 재정의할 때는 hashCode 도 반드시 재정의하라
+- 아이템 17 - 변경가능성을 최소화하라
+  - equals 의 일관성 조건을 설명하면서 클래스를 불변 클래스로 만드는 것에 대해 언급하면서 불변 클래스로 만드는 것에 대해 아이템 17을 참고하게끔 주석으로 정리되어 있다.
+- 아이템 52 - 다중정의는 신중히 사용하라
+  - Object의 equals(Object o) 를 메서드 재정의하는 것이 아닌 다중정의하는 경우가 있다. 
+  - 예를 들면, `public boolean equals(MyClass o){ ... }` 를 정의하는 경우다.
+  - 다중 정의에 대한 내용은 아이템 52를 찾아보자.
+
+<br>
+
+## Java 라이브러리 내에 equals 규약이 제대로 지켜지지 않은 라이브러리들
+
+저자인 조슈아블로크는 Java 언어 내에서 equals 규약이 제대로 지켜지지 않아서 특정 상황에서는 해당 라이브러리를 가급적 지키지 않도록 경고를 해주고 있다. 책을 읽으면서는 가끔씩 그냥 지나쳤는데, 여기에 해당 라이브러리들에 대해 요약을 해두었다. (계속 추가 예정. 조금 늦게 정리를 시작했다.)
+
+- 
+- **`java.net.URL`**
+  - equals 규약의 일관성 조건을 위배
+  - java.net.URL 의 equals 는 주어진 URL 과 호스트의 IP 주소를 이용해 비교한다.
+  - 호스트 이름을 IP 주소로 바꾸려면 네트워크를 통해야 하는데, 네트워크 사정상 항상 같은 결과를 보장하기 어렵다.
+  - 이런 문제는 URL클래스의 equals 가 일반 규약을 어기게 되어 실무에서도 종종 문제를 일으키게 된다.
+  - URL의 equals를 이렇게 구현한 것은 큰 실수였다. 따라하면 안된다.
+
+<br>
+
+## equals 재정의시 주의점 (요약)
+
+이 글은 이번 챕터의 가장 마지막에 언급하는 내용이다. 책의 저자인 조슈아 블로크는 한국인으로 귀화한 게 아닐까 하는 착각이 들정도로 이상하게도 결론을 맨 뒤에 둔다. 한국말은 끝까지 들어봐야 한다는 이야기가 있는데, 이 분은 항상 글의 맨 뒤에 요점정리를 해둔다. 그래서 이번 챕터의 가장 마지막 부분을 읽고 해당 주의 점에 대한 언급을 여기에 정리해두려 한다.<br>
+
+<br>
+
+equals 를 다 구현했다면 아래의 세 가지를 자문해봐야 한다.
+
+- 대칭적인가?
+- 추이성이 있는가?
+- 일관적인가?
+
+<br>
+
+위의 자문에서 끝내지 말고 반드시 단위테스트를 작성해 돌려봐야 한다. 단, equals 메서드를 AutoValue 를 이용해 작성했다면 테스트를 생략해도 안심할 수 있다. 위의 세 요건 중 하나라도 실패한다면, 원인을 찾아서 고쳐야 한다. 물론 반사성, null-아님 요건도 만족해야 하는데, 반사성, null-아님에 위배되는 경우는 거의 없다.<br>
+
+<br>
+
+그리고 아래는 equals 메서드를 구현시에 주의할 점이다.<br>
+
+- equals 를 재정의할 때는 hashCode 도 반드시 재정의하자. (아이템 11)
+
+- 너무 복잡하게 해결하려 들지 말자.
+
+  - 필드들의 동치성만 검사해도 equals 규약을 어렵지 않게 지킬 수 있다. 오히려 너무 공격적으로 파고들다가 문제를 일으킨다.
+  - 일반적으로 별칭(alias)은 비교하지 않는게 좋다.
+    - 예를 들어 File 클래스의 경우 심볼릭 링크를 이용해 같은파일을 가리키는지 확인하려 하면 안된다.
+    - 다행히 File 클래스는 이런 시도를 하지 않는다.
+
+- Object 외의 타입을 매개변수로 받는 equals 메서드는 선언하지 말아야 한다.
+
+  - 많은 경우 equals 를 `public boolean equals(MyClass o){ ... }` 와 같은 형태로 작성해놓고 문제의 원인을 찾으려 헤매는 경우가 많다.
+
+  - 이런 경우의 equals 는 Object.equals 를 재정의한 것이 아니다. 입력타입이 Object가 아니기 때문에 메서드 재정의되지 않은 것이다. 오히려 다른 입력타입을 가진 또다른 하나의 메서드를 선언한 것 이다.
+
+  - 이렇게 타입을 구체적으로 명시항 equals 메서드는 오히려 해가 된다.
+
+  - @Override 애너테이션을 잘 사용하면 긍정오류(false positive)를 내게 하고 보안 측면에서도 잘못된 정보임을 명시해 컴파일 타임에 오류를 찾아낼 수 있다.
+
+  - 이렇게 부주의하게 다중정의를 했을 때를 예방하려면 명시적으로 Object의 equals 메서드를 재정의했음을 컴파일타임에 알수 있도록 해주면 된다. 예를 들면 아래와 같은 방식을 예로 들수 있다.
+
+  - ```java
+    @Override
+    public boolean equals(MyClass o){
+      // ...
+    }
+    ```
+
+  - 위의 클래스는 @Override를 했지만, Object의 equals (Object o) 를 오버라이딩한 것이 아니다. 따라서 컴파일 타임에 에러를 낼 수 있기 때문에 안전하다.
+
+  - 즉, @Override 를 명시해서, 이것이 Object의 equals(Object) 를 오버라이딩 했음을 명시적으로 정의하는 습관을 들이자.
+
+<br>
+
+아래는 equals 규약을 나름 잘 지켜서 작성된 PhoneNumber 클래스다. (소스코드 [링크](https://github.com/jbloch/effective-java-3e-source-code/blob/master/src/effectivejava/chapter3/item10/PhoneNumber.java))
+
+```java
+package effectivejava.chapter3.item10;
+
+// Class with a typical equals method (Page 48)
+public final class PhoneNumber {
+    private final short areaCode, prefix, lineNum;
+
+    public PhoneNumber(int areaCode, int prefix, int lineNum) {
+        this.areaCode = rangeCheck(areaCode, 999, "area code");
+        this.prefix   = rangeCheck(prefix,   999, "prefix");
+        this.lineNum  = rangeCheck(lineNum, 9999, "line num");
+    }
+
+    private static short rangeCheck(int val, int max, String arg) {
+        if (val < 0 || val > max)
+            throw new IllegalArgumentException(arg + ": " + val);
+        return (short) val;
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof PhoneNumber))
+            return false;
+        PhoneNumber pn = (PhoneNumber)o;
+        return pn.lineNum == lineNum && pn.prefix == prefix
+                && pn.areaCode == areaCode;
+    }
+
+    // Remainder omitted - note that hashCode is REQUIRED (Item 11)!
+}
+```
+
+<br>
+
 ## equals 를 재정의하지 않는 것이 오히려 더 나을 수 있는 경우들
 
 equals 메서드는 재정의하기 쉬워보이지만, 곳곳에 함정이 도사리고 있어서 자칫하면 끔찍한 결과를 초래한다.<br>
@@ -30,15 +147,21 @@ Equals() 메서드를 잘못 정의해서 생기는 문제를 회피하는 방�
 
 값을 표현하는게 아니라 동작하는 개체를 표현하는 클래스를 의미한다. 예를 들면 Thread 객체를 예로 들 수 있다. Object 의 equals() 는 이런 클래스에 맞게 구현되어 있다.<br>
 
+<br>
+
 ### 2 ) 인스턴스의 '논리적 동치성(logical equality)'을 검사할 일이 없다.
 
 논리적인 동치를 판단하는 것이 굳이 필요하다고 생각되지 않는다면, equals() 메서드는 오버라이딩하지 않는 것이 좋은 선택이다.<br>
 
 java.util.regex.Pattern 클래스를 예로 들어보자. Pattern 클래스를 이용해 서로 다른 인스턴스 두개를 만들었다고 해보자. 이 때 두 인스턴스가 바인딩하고 있는 정규표현식이 서로 같은지를 검사하려고 할 수 있다. 보통 이런 경우 설계자 입장에서는 클라이언트 측에서 이런 기능이 필요하지 않다고 생각할 수 있고, 또는 애초에 필요하지 않다고 판단할 수 있다. 이렇게 필요없는 논리적 동치성에 대해서는 equals() 메서드를 재정의하지 않는 것이 낫다.<br>
 
+<br>
+
 ### 3 ) 상위 클래스에서 재정의한 equals 가 하위 클래스에도 딱 들어맞는다.
 
 예를 들면,`AbstractSet`, `AbstractMap` 을 예로 들 수 있다. 대부분의 Set 구현체, Map 구현체들은 `AbstractSet`, `AbstractMap` 을 상속받아 정의되어 있다. 이 AbstractSet, AbstractMap 에서는 equals() 메서드를 구현하고 있는데, 이 것이 하위 클래스에도 적합하게 적용가능하다. 따라서 Set, Map 타입의 컬렉션을 구현해야 할 일 이 생긴다면 equals() 메서드를 오버라이딩을 하지 않아도 된다.<br>
+
+<br>
 
 ### 4 ) 클래스가 private 이거나 package-private 이고, equals 메서드를 호출할 일이 없다.
 
@@ -602,32 +725,149 @@ class ColorPoint3 {
 
 <br>
 
-
-
 ### 일관성(consistency)
 
 - **null 이 아닌 모든 참조값 x,y 에 대해 x.equals(y) 를 반복해서 호출하면, 항상 true를 반환하거나 항상 false 를 반환한다.**<br>
-- e두 객체가 같다면 앞으로도 영원히 같아야 한다. (단, 어느 하나 혹은 두 객체 모두가 수정되지 않는 한)
+- 두 객체가 같다면 앞으로도 영원히 같아야 한다. (단, 어느 하나 혹은 두 객체 모두가 수정되지 않는 한)
 
 <br>
 
-내일 정리 빠샤빠샤
+클래스를 만들때는 불변 클래스로 만드는게 나을지 심사숙고해서 만들어야 한다. (아이템 17) 이렇게 불변 클래스로 만든 후, equals가 한번 같다고 한 객체와는 영원이 같아야 하고, 다르다고 한 객체와는 영원히 다르다고 답하게끔 만들어야 한다.<br>
+
+<br>
+
+**일관성을 지키지 못하는 경우**<br>
+
+equals가 일관성을 지키기 위해서는 한번 수행한 equals 의 결과값이 여러번을 반복해도 같은 결과를 내어야 한다. 하지만 외부적인 요인에 의해 비교가 항상 달라지는 경우가 있다. 예를 들면 네트워크와 관련된 질의이다. 네트워크는 네트워크가 끊기는 경우도 있고, 도메인 네임은 그대로이지만, 도메인 네임에 대한 IP 주소가 바뀌어 있을 수도 있다. 즉, 값의 비교를 수행할 때 일관성을 지키기가 쉽지 않다. 외부적인 요인에 의해 달라지기 때문이다.<br>
+
+<br>
+
+**일관성을 지키지 못한 자바 라이브러리 - equals에 사용하면 안되는 예**<br>
+
+Java.net.URL 클래스가 그렇다. equals 는 주어진 URL과 매핑된 호스트의 IP 주소를 이용해 비교한다. 호스트 이름을 IP 주소로 바꾸려면 네트워크를 통해야 하는데 그 결과가 항상 같음을 보장하기 어렵다. Java.net.URL 의 equals 를 이렇게 구현한 것은 커다란 실수였다. 현재는 java.net.URL 클래스의 하위 호환성이 발목을 잡아서 잘못을 바로잡을수도 없다.<br>
+
+<br>
+
+위와 같은 문제들을 피하려면 가급적 equals는 항시 메모리에 존재하는 객체만을 사용해 결정적(deterministic) 계산만 수행하게끔 해주어야 한다.<br>
+
+<br>
 
 ### null-아님
 
 **null 이 아닌 모든 참조값 x 에 대해 x.equals(null) 은 false 다.**<br>
 
+> 공식적으로 용어가 따로 없다. 그래서 책의 저자인 조슈아 블로크는 `null-아님` 으로 이번 원칙을 설명하고 있다. 절대 내가 지은 이름이 아니다.
 
+이 null-아님 이라는 원칙은, 생성된 모든 객체가 null 과 같디 않아야 한다는 의미다. 이것을 조금 직관적으로 코드로 이야기하자면 위에 적었듯이 x.equals(null) == false 여야 한다(단, x != null). 이다. <br>
+
+이 null-아님 규칙을 지키기 위해 불필요한 코드를 사용하는 것을 피하라고 저자는 이번 챕터에서 이야기하고 있다. 예를 들면 아래와 같은 코드다.
+
+```java
+// ...
+@Override public boolean equals(Object o){
+  // 명시적 null 검사 = 필요 없다!
+  if(o == null) return false;
+  // ...
+}
+```
+
+위와 같은 코드는 그리 필요치 않다. 대신 instanceof 를 통해 입력 매개변수의 타입을 검사하는 과정에서 null 아님을 파악할 수있게 된다. 예를 들면 아래와 같다.<br>
+
+```java
+// 묵시적 null 검사 - 이게 더 낫다.
+@Override public boolean equals(Object o){
+  if(!(o instanceof MyType))
+    return false;
+  MyType mt = (MyType) o;
+  ...
+}
+```
+
+instanceof 는 두번째 피연산자와 무관하게 첫번째 피연산자가 null 이면 false 를 반환한다. 따라서 입력이 null 이면 확인 단계에서 false 를 반환하므로 null 검사를 명시적으로 하지 않아도 된다.<br>
 
 <br>
 
+## equals 구현 절차
+
+양질의 equals 메서드를 구현시 주의할 사항은 아래와 같다.
+
+- 1 ) == 연산자를 사용해 입력이 자기 자신의 참조인지 확인한다.
+  - 자기 자신이면 true 를 반환한다.
+  - 성능 최적화를 위한 용도다.
+  - 비교작업이 복잡한 상황에서 값어치를 한다.
+- 2 ) instanceof 연산자로 입력이 올바른 타입인지 확인한다.
+  - 그렇지 않다면 false 를 반환한다.
+  - instanceof 연산자로 비교할수 있는 equals가 정의된 올바른 타입이어야 한다.
+  - 특정 인터페이스 A 를 구현한 클래스 A1, A2 끼리도 서로 비교할 수 있도록 특정 인터페이스의 equals 규약을 수정하기도 한다.
+    - 이런 경우 구현 클래스 A1, A2 는 equals 에서 A1, A2 자신의 equals 가 아닌 인터페이스 A의 equals 를 사용하도록 코드가 구현되어 이어야 한다.
+    - 예를 들면 Set, List, Map, Entry 등의 컬렉션 인터페이스들이 여기에 해당된다.
+- 3 ) 입력을 올바른 타입으로 형변환 한다.
+  - 2 ) 에서 instanceof 검사를 잘 수행한다면 이 단계는 100% 성공한다.
+- 4 ) 입력 객체와 자기 자신의 대응되는 '핵심'필드 들이 모두 일치하는지 하나씩 검사한다.
+  - (여기서 '핵심'필드라는 것은 모든 필드라는 것이 아니고, 클래스 A와 클래스 B를 비교시 값이 같다고 판단하는데에 사용할 필드들을 의미한다. 위에서 살펴본 내용.)
+  - '핵심'필드의 모든 필드와 일치하려면 true 를, 하나라도 다르면 false 를 반환한다.
+  - 2단계에서 인터페이스를 사용했다면 ?
+    - 입력의 필드 값을 가져올 때도 해당 인터페이스의 메서드를 사용해 값을 가져와야 한다.
+  - 타입이 클래스일 경우 
+    - 접근 권한에 따라 해당 필드에 직접 접근할 수도 있다.
+
 <br>
 
+## equals 구현시 주의할 점들
 
+### final, double, 참조타입 필드, float, double 필드 비교
 
+final 과 double을 제외한 기본 타입 필드는 `==` 연산자로 비교한다. <br>
 
+참조타입 필드는 각각의 equals 메서드로 비교한다.<br>
 
+float, double 필드는 각각 정적 메서드인 Float.compare(float, float), Double.compare(double, double)로 비교한다.<br>
 
+float 과 double 을 특별히 다르게 취급하는 이유는 Float.NaN, -0.0f 등 특수한 부동 소수 값들을 다뤄야 하기 때문이다. 자세한 설명은 [JLS 15.21.1] 이나 Float.equals 의 API 문서를 참고하면 된다.<br>
+
+Float.compare, Double.compare 메서드 대신 Float.equals, Double.equals 메서드를 사용할 수도 있겠으나, 이 메서드들은 오토박싱을 수반할 수도 있다. 따라서 성능상 좋지 않을 수도 있다.<br>
+
+<br>
+
+### 배열 필드 비교
+
+배열 필드는 원소 각각을 앞서의 지침대로 비교한다. 배열의 모든 원소가 핵심필드라면 Arrays.equals 메서드 들 중 하나를 사용한다.
+
+<br>
+
+### null 도 정상으로 취급하는 참조타입필드 비교
+
+때로는 null 값도 정상 값으로 취급하는 참조타입 필드들이 있다. 이런 필드는 정적 메서드로 구현되어 있는 Objects.equals(Object, Object) 를 사용해 비교를 수행해 Null Pointer Exception  발생을 예방한다. <br>
+
+<br>
+
+### 비교하기 까다로운 필드를 가지고 있는 경우
+
+앞서 살펴본 CaseInsensitiveString 클래스 처럼 비교하기에 아주 복잡한 필드를 가진 클래스도 있다. 이럴 경우 그 필드의 표준형 (Canonical Form)을 저장해 둔 후에 표준형끼리 비교하면 훨씬 경제적이다. 이런 방식은 특히 불변 클래스 (아이템 17)에 적합한 방식이다. 가변 객체라면 값이 바뀔 때마다 표준형을 최신 상태로 갱신해줘야 한다.<br>
+
+<br>
+
+### 필드 비교 순서
+
+어떤 필드를 먼저 비교하는지 역시 equals 의 성능을 좌우한다. 최상의 성능을 원할 경우 다를 가능성이 더 크거나 비교하는 비용이 싼 (또는 두가지 모두 해당하는) 필드를 먼저 우선순위에 두고 비교한다.<br>
+
+또한, 동기화를 위해 생성한 lock 필드와 같은 논리적인 값과 상관 없는 필드를 비교대상으로 하면 안된다.<br>
+
+파생필드 비교가 핵심필드 비교보다 훨씬 더 빠른 경우도 고려해야 한다.<br>
+
+파생 필드가 객체 전체의 상태를 대표하는 상황이 그렇다. 예를 들어 자신의 영역을 캐시해두는 Polygon 클래스가 있다고 해보자. 이 경우 모든 면,정점을 하나 하나 일일이 비교할 필요가 없다. 캐시해둔 영역만 비교하면 결과를 곧바로 확인할 수 있다.<br>
+
+<br>
+
+## AutoValue
+
+equals,hashCode 를 작성하고 테스트하는 일은 지루하고 이를 테스트 하는 코드도 항상 뻔하다. 다행히 이 구글에서 만든 AutoValue 프레임워크를 사용하면 이 작업을 대신해준다. 클래스에 애너테이션 하나만 추가하면 AutoValue가 이 메서드 들을 알아서 작성해주며, 직접 작성하는 것과 근본적으로 같은 코드를 만들어준다.<br>
+
+대다수의 IDE 도 같은 기능을 제공하지만, 생성된 코드가 AutoValue 만큼 깔끔하거나 읽기 좋지는 않다. 또한 IDE 는 나중에 클래스가 수정된 것을 자동으로 알아채지는 못하기에 테스트 코드를 작성해야 한다.<br>
+
+이런 단점을 감안해도, 사람이 직접 equals 를 작성하는 것보다는 IDE에 맡기는 편이 좋다. 적어도 사람처럼 부주의한 실수를 저지르지는 않는다.<br>
+
+여기까지가 조슈아 블로크의 의견이고, 내 의견은 아직 AutoValue를 사용하지 않고 작성하는게 나을지 판단이 잘 안선다. 아직 뭔가 equals를 수행해야 하는 컬렉션 클래스들을 커스터마이징한 프레임워크 같은걸 만들어본적도 없다. 비슷한 책을 최근에 출퇴근할 때 조금씩 읽고 있기는 한데 equals 까지 내용을 다루는지는 나도 잘 모르겠다.
 
 
 
