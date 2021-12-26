@@ -69,12 +69,14 @@
 3장 모든 객체의 공통 메서드<br>
 
 - [아이템 10 - equals 는 일반 규약을 지켜 재정의하라](https://github.com/gosgjung/study-effective-java-3nd/blob/develop/ITEM-10-equals%EB%8A%94-%EC%9D%BC%EB%B0%98-%EA%B7%9C%EC%95%BD%EC%9D%84-%EC%A7%80%EC%BC%9C-%EC%9E%AC%EC%A0%95%EC%9D%98%ED%95%98%EB%9D%BC.md)
-  - 정리중
-
+  - 정리중. 95%
+  - 나중에 조금 더 보완해야 한다.
+  - 2021.12.26
+    - 일이 바쁜 중에 매일 30분씩 시간을 쪼개서 하느라 늦어진 것도 있지만 ITEM10 은 너무 길었다. 
+    - 내일 커밋할까 하는 유혹이 있었지만, 너무 오랫동안 작성해오느라 지쳐서 일단 커밋했다.
 - [아이템 11 - equals 를 재정의하려거든 hashCode 도 재정의하라](https://github.com/gosgjung/study-effective-java-3nd/blob/develop/ITEM-11-equals%EB%A5%BC-%EC%9E%AC%EC%A0%95%EC%9D%98%ED%95%98%EB%A0%A4%EA%B1%B0%EB%93%A0-hashCode%EB%8F%84-%EC%9E%AC%EC%A0%95%EC%9D%98%ED%95%98%EB%9D%BC.md)
   - 정리 중. 90%
   - hashCode 를 재정의하는 여러가지 경우의 수들을 시간을 많이 들여서 정리해볼 예정.
-
 - 아이템 12 - toString 을 항상 재정의하라
 - 아이템 13 - clone 재정의는 주의해서 진행하라
 - [아이템 14 - Comparable 을 구현할지 고려하라](https://github.com/gosgjung/study-effective-java-3nd/blob/develop/ITEM-14-Comparable%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%A0%EC%A7%80-%EA%B3%A0%EB%A0%A4%ED%95%98%EB%9D%BC.md)
