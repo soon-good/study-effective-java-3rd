@@ -1,4 +1,4 @@
-package io.study.java.effective_java_examples.item11.using_executor_service;
+package io.study.java.effective_java_examples.chapter11.using_executor_service;
 
 public class HeavyThread extends Thread{
 

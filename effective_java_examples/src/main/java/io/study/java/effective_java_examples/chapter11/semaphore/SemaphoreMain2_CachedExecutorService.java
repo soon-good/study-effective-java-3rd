@@ -1,4 +1,4 @@
-package io.study.java.effective_java_examples.item11.semaphore;
+package io.study.java.effective_java_examples.chapter11.semaphore;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

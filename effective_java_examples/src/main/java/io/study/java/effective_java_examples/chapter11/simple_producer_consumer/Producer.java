@@ -1,4 +1,4 @@
-package io.study.java.effective_java_examples.item11.simple_producer_consumer;
+package io.study.java.effective_java_examples.chapter11.simple_producer_consumer;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

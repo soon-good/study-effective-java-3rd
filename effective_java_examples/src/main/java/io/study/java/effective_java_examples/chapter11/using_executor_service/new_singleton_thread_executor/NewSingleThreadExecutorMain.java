@@ -1,9 +1,9 @@
-package io.study.java.effective_java_examples.item11.using_executor_service.new_singleton_thread_executor;
+package io.study.java.effective_java_examples.chapter11.using_executor_service.new_singleton_thread_executor;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import io.study.java.effective_java_examples.item11.using_executor_service.HeavyThread;
+import io.study.java.effective_java_examples.chapter11.using_executor_service.HeavyThread;
 
 public class NewSingleThreadExecutorMain {
 	public static void main(String [] args){
