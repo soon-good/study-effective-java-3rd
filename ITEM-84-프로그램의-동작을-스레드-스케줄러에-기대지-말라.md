@@ -8,7 +8,7 @@
 
 - [이펙티브 자바 Effective Java](http://www.yes24.com/Product/Goods/65551284)
 
-
+<br>
 
 ## 읽어볼 만한 자료
 
@@ -63,78 +63,75 @@ OS에 기반한 스레드 스케쥴러가 아닌, JVM위에서 작성한 스레�
 실행 가능한 스레드 수 를 코드 상에서 직접 지정하거나 코드 상에서 스레드를 관리하는 방법은 애매한 요인 중 하나인 것 같다. 책에서는 실행 가능한 스레드의 수를 관리하는 방식에 대해서 설명한다.<br>
 
 - 스레드 풀을 두어서 작업 완료시 다음 일거리가 생길 때 까지 대기하도록 코드를 작성한다.
-
-- - 스레드는 당장 처리해야 할 작업이 없다면 실행되어서는 안된다. 따라서 다음 일거리가 생기기 전까지 대기하게끔 해둔다.
-
+  - 스레드는 당장 처리해야 할 작업이 없다면 실행되어서는 안된다. 따라서 다음 일거리가 생기기 전까지 대기하게끔 해둔다.
   - ITEM 80. 스레드보다는 실행자/태스크/스트림을 애용하라
-
-  - - 실행자(Executor) 프레임워크를 예로 들면, 스레드 풀 크기를 적절히 설정하고 작업을 짧게 유지한다. 
+    - 실행자(Executor) 프레임워크를 예로 들면, 스레드 풀 크기를 적절히 설정하고 작업을 짧게 유지한다. 
     - 단, 작업이 너무 짧으면 작업을 분배하는 부담이 성능저하의 원인이 되기도 한다.
-
 - 스레드는 절대 바쁜 대기(busy waiting) 상태가 되면 안된다.
-
-- - 공유 객체 또는 공유 변수가 변할 때까지 계속해서 검사하는 코드를 작성하면 안된다. 
+  - 공유 객체 또는 공유 변수가 변할 때까지 계속해서 검사하는 코드를 작성하면 안된다. 
   - 이것을 책에서는 바쁜 대기(busy waiting) 이라는 용어로 설명하고 있다.
   - 바쁜 대기 (busy waiting)는 스레드 스케쥴러의 변덕에 취약하고, 프로세서에 큰 부담을 주어 다른 유용한 작업이 실행될 기회를 박탈한다.
 
-- 
+<br>
 
-- ## busy waiting 을 하는 나쁜 코드의 예
+## busy waiting 을 하는 나쁜 코드의 예
 
-- ```java
-  package effectivejava.chapter11.item84;
+```java
+package effectivejava.chapter11.item84;
+
+// Awful CountDownLatch implementation - busy-waits incessantly!  - Pages 336-7
+public class SlowCountDownLatch {
+    private int count;
+
+    public SlowCountDownLatch(int count) {
+        if (count < 0)
+            throw new IllegalArgumentException(count + " < 0");
+        this.count = count;
+    }
+
+    public void await() {
+        while (true) {
+            synchronized(this) {
+                if (count == 0)
+                    return;
+            }
+        }
+    }
   
-  // Awful CountDownLatch implementation - busy-waits incessantly!  - Pages 336-7
-  public class SlowCountDownLatch {
-      private int count;
-  
-      public SlowCountDownLatch(int count) {
-          if (count < 0)
-              throw new IllegalArgumentException(count + " < 0");
-          this.count = count;
-      }
-  
-      public void await() {
-          while (true) {
-              synchronized(this) {
-                  if (count == 0)
-                      return;
-              }
-          }
-      }
-    
-      public synchronized void countDown() {
-          if (count != 0)
-              count--;
-      }
-  }
-  ```
+    public synchronized void countDown() {
+        if (count != 0)
+            count--;
+    }
+}
+```
 
-- <br>
+<br>
 
-- 위의 코드에서 busy waiting을 하고 있는 코드는 아래와 같다. if 구문으로 count 변수를 while 문에서 무한반복으로 조사하는데 여기에 조건변수의 동기화가 필요하기에 synchronized 키워드를 적용하고 있다.
+위의 코드에서 busy waiting을 하고 있는 코드는 아래와 같다. if 구문으로 count 변수를 while 문에서 무한반복으로 조사하는데 여기에 조건변수의 동기화가 필요하기에 synchronized 키워드를 적용하고 있다.
 
-- ```java
-  public void await() {
-    while (true) {
-      synchronized(this) {
-        if (count == 0)
-          return;
-      }
+```java
+public void await() {
+  while (true) {
+    synchronized(this) {
+      if (count == 0)
+        return;
     }
   }
-  ```
+}
+```
 
-- <br>
+<br>
 
-- 더 자세히 정리했으면 좋겠는데, 그렇게 시간이 많지가 않다. 일단은 이정도까지.
+더 자세히 정리했으면 좋겠는데, 그렇게 시간이 많지가 않다. 일단은 이정도까지.
 
-- <br>
+<br>
 
-- ## Thread.yield 또는 우선순위 
+## Thread.yield 또는 우선순위
 
-- 특정 스레드가 다른 스레드 들에 밀려서 작업권을 뺏기는 경우가 있다. 다른 스레드 들에 비해 CPU 시간을 충분히 얻지 못해 간신히 돌아가는 경우를 예로 들 수 있다. 이때 Thread.yield 로 특정 작업의 우선순위를 임의로 조정하는 경우가 있는데 좋지 못한 해결 방식이다.<br>
+특정 스레드가 다른 스레드 들에 밀려서 작업권을 뺏기는 경우가 있다. 다른 스레드 들에 비해 CPU 시간을 충분히 얻지 못해 간신히 돌아가는 경우를 예로 들 수 있다. 이때 Thread.yield 로 특정 작업의 우선순위를 임의로 조정하는 경우가 있는데 좋지 못한 해결 방식이다.<br>
 
-- Thread.yield 를 써서 문제를 고쳐보려는 유혹을 떨쳐내야 한다.
+Thread.yield 를 써서 문제를 고쳐보려는 유혹을 떨쳐내야 한다.<br>
 
-- 이건 조금 글이 길어지기에 내일 이후로 정리해야 할 것 같다. 선점형, 선점형 스케쥴러 등등 이것 저것 정리해야 하는 이론들이 떠오르지만, 간결하게 정리해야하고, 일단 시간은 또 없고, 일단 내일 이후로 스킵.
+이건 조금 글이 길어지기에 내일 이후로 정리해야 할 것 같다. 선점형, 선점형 스케쥴러 등등 이것 저것 정리해야 하는 이론들이 떠오르지만, 간결하게 정리해야하고, 일단 시간은 또 없고, 일단 내일 이후로 스킵.<br>
+
+<br>
