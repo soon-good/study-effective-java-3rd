@@ -6,27 +6,46 @@
 
 <br>
 
+아래 요약 부분을 좀 수정을 해야 한다. 가독성이 너무 떨어진다. Typora에서는 예쁘게 보이는게, 브라우저에서는 못알아볼정도로 크게 개떡같이 나와서 수정이 필요함... 주말 동안 전반적으로 다른 모든 글들도 싹다 수정해야지...<br>
+
+<br>
+
 ## 요약
 
-**ThreadPoolExecutor**<br>
+### ThreadPoolExecutor
 
 - `newCachedThreadPool`, `newFixedThreadPool`, `newScheduledThreadPool` 을 사용해 ThreadPoolExecutor 객체를 생성 가능하다.
+
+<br>
+
 - 아래 캡처에서 보이듯이 ThreadPoolExecutor 클래스는 ExecutorService 타입으로 추상화가 가능하다.
 
-![이미지](./img/8.3.1/1.png)
+<br>
+
+<img src="./img/8.3.1/1.png" alt="이미지" style="zoom: 50%;" />
+
+<br>
 
 - newCachedThreadPool 팩토리 메서드를 예로 들어보면, newCachedThreadPool 팩토리 메서드는 아래와 같이 ExecutorService 객체를 리턴하게끔 함수의 정의가 되어 있다.
 
+<br>
+
 ![이미지](./img/8.3.1/2.png)
 
+<br>
+
 - 실제 `newCachedThreadPool()` 팩토리 메서드의 정의를 살펴보면 `ThreadPoolExecutor ` 의 생성자를 통해 객체를 생성하고 있다. 그리고 반환형은 구체 타입인 `ThreadPoolExecutor` 가 아닌 추상타입인 `ExecutorService` 로 반환해 어디에서든 호환이 가능하도록 정의되어 있다.
-  - 아래 캡처를 보면 `new ThreadPoolExecutor( 0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, newSynchronousQueue<Runnable>())`  로 생성자를 호출해 객체를 생성하고 있다.
+  - 아래 캡처를 보면 `new ThreadPoolExecutor( 0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>())`  로 생성자를 호출해 객체를 생성하고 있다.
+
+<br>
 
 ![이미지](./img/8.3.1/3.png)
 
 <br>
 
-**corePoolSize(최소 스레드 풀 크기) 와 작업 큐의 관계**<br>
+<br>
+
+### corePoolSize(최소 스레드 풀 크기) 와 작업 큐의 관계
 
 기본적으로 ThreadPoolExecutor 는 스레드 풀의 현재 스레드 갯수가 `corePoolSize`(최소 풀 크기) 만큼 유지되어 있고, 작업 큐가 가득찬 경우에만 새로운 스레드를 생성한다. <br>
 
@@ -36,7 +55,7 @@
 
 <br>
 
-**처리할 작업이 없어 비교적 한산한 때에 스레드가 점차 사라지도록 하는 효과를 내려면?**<br>
+### 처리할 작업이 없어 비교적 한산한 때에 스레드가 점차 사라지도록 하는 효과를 내려면?
 
 - corePoolSize 를 0 으로 세팅하는 우를 범하면 안된다. (자세한 내용은 아래를 참고)
 - 스레드에 timeout 적용 + 고정된 크기의 스레드 풀 + 고정된 크기의 작업 큐 로 구성
@@ -44,13 +63,13 @@
 
 <br>
 
-**각각의 팩터리 메서드들...**<br>
+### 각각의 팩터리 메서드들...
 
-- 아래에 정리해둔 것을 보자... 
+- 아래에 정리해둔 `8.3.1` 을 보자... 
 
 <br>
 
-## ThreadPoolExecutor
+### `ThreadPoolExecutor` vs `Executors`  내장 팩토리메서드
 
 ThreadPoolExecutor 는 Executor 클래스의 `newCachedThreadPool`, `newFixedThreadPool`, `newScheduledThreadPool` 등의 팩토리 메서드로 객체를 생성 가능하다. 또는 커스터마이징된 설정을 적용한 클래스에서 ThreadPoolExecutor 객체를 생성할 수도 있다. ThreadPoolExecutor 는 Executor 타입의 클래스이다. <br>
 
