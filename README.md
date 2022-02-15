@@ -143,7 +143,9 @@
 9장 일반적인 프로그래밍 원칙<br>
 
 - 아이템 57 - 지역변수의 범위를 최소화하라
-- 아이템 58 - 전통적인 for 문 보다는 for-each 문을 사용하라
+- [아이템 58 - 전통적인 for 문 보다는 for-each 문을 사용하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-58-%EC%A0%84%ED%86%B5%EC%A0%81%EC%9D%B8-for%EB%AC%B8-%EB%B3%B4%EB%8B%A4%EB%8A%94-for-each-%EB%AC%B8%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC.md) 
+  - (정리완료: 2022.02.15)
+
 - 아이템 59 - 라이브러리를 익히고 사용하라
 - 아이템 60 - 정확한 답이 필요하다면 float와 double 은 피하라
 - 아이템 61 - 박싱된 기본타입보다는 기본타입을 사용하라
