@@ -145,9 +145,11 @@
 - 아이템 57 - 지역변수의 범위를 최소화하라
 - [아이템 58 - 전통적인 for 문 보다는 for-each 문을 사용하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-58-%EC%A0%84%ED%86%B5%EC%A0%81%EC%9D%B8-for%EB%AC%B8-%EB%B3%B4%EB%8B%A4%EB%8A%94-for-each-%EB%AC%B8%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC.md) 
   - (정리완료: 2022.02.15)
+- [아이템 59 - 라이브러리를 익히고 사용하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-59-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EB%A5%BC-%EC%9D%B5%ED%9E%88%EA%B3%A0-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC.md)
+  - (정리완료: 2022.02.22)
+  - 자바 버전별 스펙 변화 문서 작성 후 별도 링크 추가 필요
 
-- 아이템 59 - 라이브러리를 익히고 사용하라
-- 아이템 60 - 정확한 답이 필요하다면 float와 double 은 피하라
+- [아이템 60 - 정확한 답이 필요하다면 float와 double 은 피하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-60-%EC%A0%95%ED%99%95%ED%95%9C-%EB%8B%B5%EC%9D%B4-%ED%95%84%EC%9A%94%ED%95%98%EB%8B%A4%EB%A9%B4-float%EC%99%80-double%EC%9D%80-%ED%94%BC%ED%95%98%EB%9D%BC.md)
 - 아이템 61 - 박싱된 기본타입보다는 기본타입을 사용하라
 - 아이템 62 - 다른 타입이 적절하다면 문자열 사용을 피하라
 - 아이템 63 - 문자열 연결은 느리니 주의하라
