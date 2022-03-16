@@ -138,9 +138,10 @@
   - (정리완료: 2022.02.22)
 - [아이템 61 - 박싱된 기본타입보다는 기본타입을 사용하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-61-%EB%B0%95%EC%8B%B1%EB%90%9C-%EA%B8%B0%EB%B3%B8-%ED%83%80%EC%9E%85%EB%B3%B4%EB%8B%A4%EB%8A%94-%EA%B8%B0%EB%B3%B8%ED%83%80%EC%9E%85%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC.md)
   - (정리완료: 2022.02.25 새벽)
-
 - 아이템 62 - 다른 타입이 적절하다면 문자열 사용을 피하라
 - [아이템 63 - 문자열 연결은 느리니 주의하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-63-%EB%AC%B8%EC%9E%90%EC%97%B4-%EC%97%B0%EA%B2%B0%EC%9D%80-%EB%8A%90%EB%A6%AC%EB%8B%88-%EC%A3%BC%EC%9D%98%ED%95%98%EB%9D%BC.md)
+  - (정리완료: 2022.03.16)
+
 - 아이템 64 - 객체는 인터페이스를 사용해 참조하라
 - 아이템 65 - 리플렉션보다는 인터페이스를 사용하라
 - 아이템 66 - 네이티브 메서드는 신중히 사용하라
