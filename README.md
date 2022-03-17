@@ -141,8 +141,9 @@
 - 아이템 62 - 다른 타입이 적절하다면 문자열 사용을 피하라
 - [아이템 63 - 문자열 연결은 느리니 주의하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-63-%EB%AC%B8%EC%9E%90%EC%97%B4-%EC%97%B0%EA%B2%B0%EC%9D%80-%EB%8A%90%EB%A6%AC%EB%8B%88-%EC%A3%BC%EC%9D%98%ED%95%98%EB%9D%BC.md)
   - (정리완료: 2022.03.16)
+- [아이템 64 - 객체는 인터페이스를 사용해 참조하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-64-%EA%B0%9D%EC%B2%B4%EB%8A%94-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4-%EC%B0%B8%EC%A1%B0%ED%95%98%EB%9D%BC.md)
+  - (정리완료: 2022.03.17)
 
-- 아이템 64 - 객체는 인터페이스를 사용해 참조하라
 - 아이템 65 - 리플렉션보다는 인터페이스를 사용하라
 - 아이템 66 - 네이티브 메서드는 신중히 사용하라
 - 아이템 67 - 최적화는 신중히 하라
