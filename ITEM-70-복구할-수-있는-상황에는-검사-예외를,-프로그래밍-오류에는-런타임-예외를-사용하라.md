@@ -36,7 +36,7 @@
   - Checked Exception 은 try ~ cactch 로 예외처리를 하거나 throw 구문으로 상위 메서드에게 예외를 throw 해야 한다.
   - Checked Exception 을 처리하지 않으면 자바 컴파일러가 컴파일 단계에서 컴파일에러를 발생시켜 예외에 대한 처리를 하게끔 유도한다.
   - RutimeException 및 Exception 을 상속받은 기타 클래스들은 대부분 Checked Exception 은 아니다.
-  - 쉽게 설명하면, 직접 작성한 메서드에 `throws Exception` 을 명시했다면, 해당 메서드를 호출 하는 caller 측에서는 try~catch, throw 등의 처리를 해줘야 한다. try~catch, throw 등의 처리를 하지 않으면 컴파일 에러가 발생한다.
+  - 쉽게 설명하면, 직접 작성한 메서드에 `throws Exception` 을 명시했다면, 해당 메서드를 호출 하는 caller 측에서는 `try~catch`, `throw` 등의 처리를 해줘야 한다. `try~catch`, `throw` 등의 처리를 하지 않으면 컴파일 에러가 발생한다.
   - 예외 처리를 컴파일 레벨에서 강제하기 위해 사용되기도 한다.
 - `Unchecked Exception`
   - 컴파일 타임에 체크되지 않는 다소 느슨한 예외다.
