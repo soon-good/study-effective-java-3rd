@@ -46,6 +46,8 @@ catch(TheCheckedException e){
 }
 ```
 
+<br>
+
 **Checked Exception 의 단점**<br>
 
 한편, Checked Exception(검사 예외) 는 과하게 사용하면 오히려 쓰기 불편한 API가 된다.<br>
