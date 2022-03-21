@@ -151,7 +151,9 @@
 
 10장 예외<br>
 
-- 아이템 69 - 예외는 진짜 예외 상황에만 사용하라
+- [아이템 69 - 예외는 진짜 예외 상황에만 사용하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-69-%EC%98%88%EC%99%B8%EB%8A%94-%EC%A7%84%EC%A7%9C-%EC%98%88%EC%99%B8%EC%83%81%ED%99%A9%EC%97%90%EB%A7%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC.md)
+  - 2022.03.22 정리완료
+
 - [아이템 70 - 복구할 수 있는 상황에는 검사 예외를, 프로그래밍 오류에는 런타임 예외를 사용하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-70-%EB%B3%B5%EA%B5%AC%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8A%94-%EC%83%81%ED%99%A9%EC%97%90%EB%8A%94-%EA%B2%80%EC%82%AC-%EC%98%88%EC%99%B8%EB%A5%BC%2C-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%98%A4%EB%A5%98%EC%97%90%EB%8A%94-%EB%9F%B0%ED%83%80%EC%9E%84-%EC%98%88%EC%99%B8%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC.md)
   - (정리완료: 2022.03.18)
   - (2022.03.21 내용 추가 및 수정)
@@ -160,7 +162,6 @@
 - [아이템 71 - 필요없는 검사 예외 사용은 피하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-71-%ED%95%84%EC%9A%94%EC%97%86%EB%8A%94-%EA%B2%80%EC%82%AC-%EC%98%88%EC%99%B8-%EC%82%AC%EC%9A%A9%EC%9D%80-%ED%94%BC%ED%95%98%EB%9D%BC.md)
   - 2022.03.21 1차 정리 완료.
   - 추후 더 요약해서 더 짧은 문서로 만들어둘 예정
-
 - 아이템 72 - 표준 예외를 사용하라
 - 아이템 73 - 추상화 수준에 맞는 예외를 던지라
 - 아이템 74 - 메서드가 던지는 모든 예외를 문서화하라
