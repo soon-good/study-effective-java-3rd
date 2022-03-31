@@ -163,7 +163,7 @@
   - 2022.03.21 1차 정리 완료.
   - 추후 더 요약해서 더 짧은 문서로 만들어둘 예정
 - [아이템 72 - 표준 예외를 사용하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-72-%ED%91%9C%EC%A4%80-%EC%98%88%EC%99%B8%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC.md)
-- 아이템 73 - 추상화 수준에 맞는 예외를 던지라
+- [아이템 73 - 추상화 수준에 맞는 예외를 던지라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-73-%EC%B6%94%EC%83%81%ED%99%94-%EC%88%98%EC%A4%80%EC%97%90-%EB%A7%9E%EB%8A%94-%EC%98%88%EC%99%B8%EB%A5%BC-%EB%8D%98%EC%A7%80%EB%9D%BC.md)
 - 아이템 74 - 메서드가 던지는 모든 예외를 문서화하라
 - 아이템 75 - 예외의 상세 메시지에 실패 관련 정보를 담으라
 - 아이템 76 - 가능한 한 실패 원자적으로 만들라
