@@ -162,7 +162,7 @@
 - [아이템 71 - 필요없는 검사 예외 사용은 피하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-71-%ED%95%84%EC%9A%94%EC%97%86%EB%8A%94-%EA%B2%80%EC%82%AC-%EC%98%88%EC%99%B8-%EC%82%AC%EC%9A%A9%EC%9D%80-%ED%94%BC%ED%95%98%EB%9D%BC.md)
   - 2022.03.21 1차 정리 완료.
   - 추후 더 요약해서 더 짧은 문서로 만들어둘 예정
-- 아이템 72 - 표준 예외를 사용하라
+- [아이템 72 - 표준 예외를 사용하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-72-%ED%91%9C%EC%A4%80-%EC%98%88%EC%99%B8%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC.md)
 - 아이템 73 - 추상화 수준에 맞는 예외를 던지라
 - 아이템 74 - 메서드가 던지는 모든 예외를 문서화하라
 - 아이템 75 - 예외의 상세 메시지에 실패 관련 정보를 담으라
