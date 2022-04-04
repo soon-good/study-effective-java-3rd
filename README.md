@@ -166,8 +166,8 @@
 - [아이템 73 - 추상화 수준에 맞는 예외를 던지라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-73-%EC%B6%94%EC%83%81%ED%99%94-%EC%88%98%EC%A4%80%EC%97%90-%EB%A7%9E%EB%8A%94-%EC%98%88%EC%99%B8%EB%A5%BC-%EB%8D%98%EC%A7%80%EB%9D%BC.md)
 - [아이템 74 - 메서드가 던지는 모든 예외를 문서화하라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-74.-%EB%A9%94%EC%84%9C%EB%93%9C%EA%B0%80-%EB%8D%98%EC%A7%80%EB%8A%94-%EB%AA%A8%EB%93%A0-%EC%98%88%EC%99%B8%EB%A5%BC-%EB%AC%B8%EC%84%9C%ED%99%94%ED%95%98%EB%9D%BC.md)
 - [아이템 75 - 예외의 상세 메시지에 실패 관련 정보를 담으라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-75-%EC%98%88%EC%99%B8%EC%9D%98-%EC%83%81%ED%83%9C%EB%A9%94%EC%8B%9C%EC%A7%80%EC%97%90-%EC%8B%A4%ED%8C%A8-%EA%B4%80%EB%A0%A8-%EC%A0%95%EB%B3%B4%EB%A5%BC-%EB%8B%B4%EC%9C%BC%EB%9D%BC.md)
-- 아이템 76 - 가능한 한 실패 원자적으로 만들라
-- 아이템 77 - 예외를 무시하지 말라
+- [아이템 76 - 가능한 한 실패 원자적으로 만들라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-76-%EA%B0%80%EB%8A%A5%ED%95%9C-%ED%95%9C-%EC%8B%A4%ED%8C%A8%EC%9B%90%EC%9E%90%EC%A0%81%EC%9C%BC%EB%A1%9C-%EB%A7%8C%EB%93%A4%EB%9D%BC.md)
+- [아이템 77 - 예외를 무시하지 말라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-77-%EC%98%88%EC%99%B8%EB%A5%BC-%EB%AC%B4%EC%8B%9C%ED%95%98%EC%A7%80-%EB%A7%90%EB%9D%BC.md)
 
 11장 동시성<br>
 
