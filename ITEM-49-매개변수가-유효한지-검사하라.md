@@ -17,13 +17,19 @@
 -  `id` 는 null 이 아니어야 한다.
 - 음수 역시 허용하지 않는다.
 
+<br>
+
 그리고 이 제약조건은 `selectEmployee(Long id)` 라는 메서드를 구현하면서 `selectEmployee(Long id)` 메서드의 실행 초기에 매개변수가 올바른지 검사하기로 했다. 보통 실무 진행시에는 위와 같은 제약조건을 기획자들이 먼저 명시하고, 문서에 명시하고 있기도 하고, 기술 상으로 데이터베이스 제약조건에 맞게끔 할때 개발 단계에서 명세화하기도 한다. <br>
 
 이런 매개변수 조건 검사는 가급적 메서드 시작 초입에 미리 검사해서 조건을 만족시키지 않는다면 Exception 을 던지거나 Optional.empty 를 리턴하거나, 비어 있는 리스트를 전달하는 등의 동작을 수행하게끔 하는 편이다.<br>
 
+<br>
+
 **"오류는 가능한 빨리(발생한 곳에서) 잡아야 한다."**<br>
 
 이렇게 메서드 초입부에서 미리 매개변수의 유효성을 체크하는 것은 "오류는 가능한 빨리 (발생한 곳에서) 잡아야 한다."는 원칙을 지키기 위한 조건이기도 하다. 메서드 실행 전 매개 변수를 검사하면, 잘못된 값이 넘어오면 즉시 깔끔한 방식으로 예외throw/Optional.empty 반환/비어있는 리스트 리턴 등의 방식으로 깔끔하게 처리할 수 있게 된다.<br>
+
+<br>
 
 **"매개변수 검사를 제대로 하지 않으면?"**<br>
 
@@ -31,9 +37,9 @@
 
 - 메서드 수행중 모호한 에러/예외가 발생해서 중단되거나 실패한다. 그리고 찾기 어려운 버그로 남는다.
 - 수행은 잘되도 잘못된 결과를 내게 될 수 있다.
-- 수행은 잘 되도 이런 객체가 이상한 상태로 만들어져서 미래에 연관성 없는 오류를 내기도 한다.
+- 수행은 잘 되도 이런 객체가 이상한 상태로 만들어져서 미래에 연관성 없는 오류를 내기도 한다.<br>
 
-
+<br>
 
 **문서화**<br>
 
@@ -186,7 +192,36 @@ assert 구문(단언문)은 일반적인 유효성 검사와 다르다.<br>
 
 ## 정적 팩터리 메서드
 
-코드 20-1
+ex) 코드 20-1 (ITEM 20. 추상클래스보다 인터페이스를 우선하라)
+
+```java
+static List<Integer> intArrayList(int [] a){
+    Objects.requireNonNull(a);
+    
+    // 다이아몬드 연산자를 이렇게 사용하는 건 자바 9 부터 가능하다.
+    // 더 낮은 버전을 사용한다면 <Integer> 로 수정하자.
+    return new AbstractList<>(){
+        @Override
+        public Integer get(int i){
+            return a[i];	// 오토박싱 (ITEM 6)
+        }
+        
+        @Override
+        public Integer set(int i, Integer val){
+            int oldVal = a[i];
+            a[i] = val;		// 오토언박싱
+            return oldVal;	// 오토박싱
+        }
+        
+        @Override
+        public int size(){
+            return a.length;
+        }
+    };
+}
+```
+
+<br>
 
 null 검사를 수행하기에 클라이언트가 null 을 건네면 NullPointerException 을 던진다.<br>
 
@@ -216,8 +251,27 @@ null 검사를 수행하기에 클라이언트가 null 을 건네면 NullPointer
 - 계산과정에서 암묵적으로 검사가 수행될 때
   - ex) 계산중 잘못된 매개변수 값을 사용해 발생한 예외와 API 문서에서 던지기로 한 예외가 다를 경우
   - 이 경우 예외번역을 통해 API 문서에 기재된 예외로 번역해야 한다. 
-  - 예외번역에 대한 개념인데, 이것은 Item 73 에서 정리해뒀었다. 
-    - !!TODO!! 흠... 다시 정리잘 되있나 보고 수정할것 수정해야겠군
+  - 예외번역에 대한 개념인데, 이것은 [ITEM 73](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-73-%EC%B6%94%EC%83%81%ED%99%94-%EC%88%98%EC%A4%80%EC%97%90-%EB%A7%9E%EB%8A%94-%EC%98%88%EC%99%B8%EB%A5%BC-%EB%8D%98%EC%A7%80%EB%9D%BC.md) 에서 정리해뒀었다. 
+
+예외 번역에 대한 예제는 아래와 같다. 자세한내용은 [ITEM 73 - 추상화 수준에 맞는 예외를 던지라](https://github.com/soon-good/study-effective-java-3rd/blob/develop/ITEM-73-%EC%B6%94%EC%83%81%ED%99%94-%EC%88%98%EC%A4%80%EC%97%90-%EB%A7%9E%EB%8A%94-%EC%98%88%EC%99%B8%EB%A5%BC-%EB%8D%98%EC%A7%80%EB%9D%BC.md) 에 정리해두었다.<br>
+
+ex)<br>
+
+get 메서드에서 발생하는 `NoSuchElementException` 예외를`IndexOutOfBoundsException` 로 상위 호출단에서 에러 판단이 쉽도록 번역해서 처리하고 있다.
+
+```JAVA
+public abstract class AbstractSequentialList<E> extends AbstractList<E> {
+    // ...
+    public E get(int index) {
+        try {
+            return listIterator(index).next();
+        } catch (NoSuchElementException exc) {
+            throw new IndexOutOfBoundsException("Index: "+index);
+        }
+    }
+    // ...
+}
+```
 
 
 
