@@ -1,6 +1,6 @@
 # ITEM 55. 옵셔널 반환은 신중히 하라
 
-Optional 을 사용하는 것은 처음에는 어렵게 느껴지지만, 자주 사용하다보면 익숙해지게 된다. 테스트 코드 위에서 다이나믹하게 매우 자주 초록불과 빨간불을 보면서 코딩을 하다보면, 옵셔널을 어떻게 쓰는지 굉장히 직관적으로 이해할 수 있지 않을까 싶다. (개인적인 경험)<br>
+Optional 을 사용하는 것은 처음에는 어렵게 느껴지지만, 자주 사용하다보면 익숙해지게 된다. 테스트 코드 위에서 다이나믹하게 매우 자주 초록불과 빨간불을 보면서 코딩을 하다보면, 옵셔널을 어떻게 쓰는지 굉장히 직관적으로 이해할 수 있지 않을까 싶다.<br>
 
 <br>
 
@@ -157,11 +157,211 @@ public void orderSomething(){
 
 ## 값이 없을 경우에 대한 다양한 처리 - orElse, orElseGet, orElseThrow, get
 
-여기부터는 내일 정리할 예정.<br>
+테스트코드 없이 말로만 정리하는 건 또 너무 딱딱하다 역시. 그래서 테스트 코드를 준비했다\~
 
-사이드 프로젝트를 시작하기로 하면서, 프로젝트 세팅 시작, 기획까지 다시 시작해야 해서 바쁘다 바빠...<br>
+**orElse**<br>
+
+```java
+@Test
+public void TEST_OR_ELSE(){
+    String word1 = "안뇽하세요";
+    String optWord1 = Optional.ofNullable(word1).orElse("인사말을 입력해주세요!!!");
+    System.out.println(optWord1);
+
+    String word2 = null;
+    String optWord2 = Optional.ofNullable(word2).orElse("인사말을 입력해주세용!!!");
+    System.out.println(optWord2);
+}
+
+```
 
 <br>
+
+**출력결과**<br>
+
+```plain
+안뇽하세요
+인사말을 입력해주세용!!!
+```
+
+<br>
+
+**orElseGet**<br>
+
+orElseGet에 들어가는 인자값은 `Supplier<T>` 다. 
+
+```java
+@Test
+public void TEST_OR_ELSE_GET(){
+    String word1 = "안뇽하세요요용!!!";
+    String optWord1 = Optional.ofNullable(word1).orElseGet(() -> "반갑습니다!!!");
+    System.out.println(optWord1);
+
+    String word2 = null;
+    String optWord2 = Optional.ofNullable(word2).orElseGet(() -> "반갑습니당 !!!");
+    System.out.println(optWord2);
+}
+```
+
+출력결과
+
+```plain
+안뇽하세요요용!!!
+반갑습니당 !!!
+```
+
+<br>
+
+**orElseThrow**<br>
+
+orElseThrow 는 Optional 로 받은 값이 비어있는 값일 때 Exception 을 던진다.
+
+```java
+@Test
+public void TEST_OR_ELSE_THROW(){
+    String word1 = "반갑습니당";
+    String optWord1 = Optional.ofNullable(word1).orElseThrow(RuntimeException::new);
+    System.out.println(optWord1);
+
+    String word2 = null;
+    assertThatThrownBy(()->{
+        Optional.ofNullable(word2).orElseThrow(RuntimeException::new);
+    }).isInstanceOf(RuntimeException.class);
+
+    assertThatThrownBy(()->{
+        Object word3 = Optional.empty().orElseThrow(RuntimeException::new);
+        System.out.println(word3);
+    }).isInstanceOf(RuntimeException.class);
+
+    assertThatThrownBy(()->{
+        Object o = Optional.empty().orElseThrow(() -> new RuntimeException("비어있는 값은 처리할 수 없어요!!!"));
+    }).isInstanceOf(RuntimeException.class)
+        .hasMessageContaining("처리할 수 없어요!!!");
+}
+```
+
+<br>
+
+**출력결과**<br>
+
+```plain
+반갑습니당
+```
+
+<br>
+
+**Optional.get**<br>
+
+`Optional` 에 값이 있다는 확신이 든다면, 곧바로 `Optional.get()` 메서드로 값을 꺼내서 사용하는 것도 나쁜 방법은 아니다. <br>
+
+```java
+@Test
+public void TEST_IF_OPTIONAL_HAS_VALUE_YOU_CAN_USE_OPTIONAL_GET_RIGHT_NOW(){
+    Optional<String> notEmpty = Optional.of("TEST");
+
+    if(notEmpty.isEmpty()) return; // 옵셔널에 값이 없으면 리턴해버린다.
+
+    String s = notEmpty.get();  // 이미 값이 있는 경우에만 거치도록 필터링되어 있는 상태다.
+    System.out.println(s);
+}
+```
+
+<br>
+
+출력결과
+
+```plain
+TEST
+```
+
+<br>
+
+## filter, map, flatMap, ifPresent
+
+**Optional.filter**<br>
+
+예제
+
+```java
+@Test
+public void OPTIONAL_FILTER(){
+    Optional<Integer> odd = Optional.ofNullable(3)
+        .filter(num -> num % 2 == 0);
+
+    System.out.println(odd);
+    assertThat(odd).isEmpty();
+
+    Optional<Integer> even = Optional.ofNullable(2)
+        .filter(num -> num % 2 == 0);
+    System.out.println(even);
+    assertThat(even).isNotEmpty();
+}
+```
+
+출력결과
+
+```plain
+Optional.empty
+Optional[2]
+```
+
+<br>
+
+**Optional.map**<br>
+
+예제
+
+```java
+@Test
+public void OPTIONAL_MAP(){
+    String hello1 = "Hello";
+    Optional<Integer> optNumber1 = Optional.ofNullable(hello1)
+        .map(str -> str.length());
+    System.out.println(optNumber1);
+    assertThat(optNumber1).isNotEmpty();
+
+    String hello2 = null;
+    Optional<Integer> optNumber2 = Optional.ofNullable(hello2)
+        .map(str -> str.length());
+    System.out.println(optNumber2);
+    assertThat(optNumber2).isEmpty();
+}
+```
+
+<br>
+
+출력결과
+
+```plain
+Optional[5]
+Optional.empty
+```
+
+<br>
+
+나머지는 내일부터...!!!
+
+**Optional.flatMap**<br>
+
+
+
+
+
+## isPresent
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
