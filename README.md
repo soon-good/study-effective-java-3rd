@@ -16,9 +16,14 @@
 
 <br>
 
-동영상 강의
+동영상 강의 (두개 다 질렀다는...)
 
-- 백기선님, 이펙티브 자바 강의 : [https://www.youtube.com/watch?v=X7RXP6EI-5E&list=PLfI752FpVCS8e5ACdi5dpwLdlVkn0QgJJ](https://www.youtube.com/watch?v=X7RXP6EI-5E&list=PLfI752FpVCS8e5ACdi5dpwLdlVkn0QgJJ)
+- 백기선님, 이펙티브 자바 강의 : 
+  - [이펙티브 자바 완벽 공략 1부 - 인프런 | 강의 (inflearn.com)](https://www.inflearn.com/course/이펙티브-자바-1)
+  - [https://www.youtube.com/watch?v=X7RXP6EI-5E&list=PLfI752FpVCS8e5ACdi5dpwLdlVkn0QgJJ](https://www.youtube.com/watch?v=X7RXP6EI-5E&list=PLfI752FpVCS8e5ACdi5dpwLdlVkn0QgJJ)
+- 김두현님, 이펙티브 자바 강의 : 
+  - [한달한권 | 이펙티브 자바 | zero-base](https://zero-base.co.kr/category_dev_camp/java_1book)
+
 
 <br>
 
