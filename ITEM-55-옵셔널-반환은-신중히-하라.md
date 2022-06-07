@@ -1,12 +1,10 @@
 # ITEM 55. 옵셔널 반환은 신중히 하라
 
-Optional 을 사용하는 것은 처음에는 어렵게 느껴지지만, 자주 사용하다보면 익숙해지게 된다. 테스트 코드 위에서 다이나믹하게 매우 자주 초록불과 빨간불을 보면서 코딩을 하다보면, 옵셔널을 어떻게 쓰는지 굉장히 직관적으로 이해할 수 있지 않을까 싶다.<br>
-
-<br>
+Optional 을 사용하는 것은 처음에는 어렵게 느껴지지만, 자주 사용하다보면 익숙해지게 된다. 테스트 코드 위에서 다이나믹하게 매우 자주 초록불과 빨간불을 보면서 코딩을 하다보면, 옵셔널을 어떻게 쓰는지 굉장히 직관적으로 이해할 수 있지 않을까 싶다.<br><br>
 
 ## 핵심정리
 
-값을 반환하지 못할 가능성이 있고, 호출할 때 마다 반환값이 있을 가능성을 염두에 둬야 하는 메서드라면 옵셔널을 반환해야 할 상황일 수 있다. 하지만 옵셔널 반환에는 성능저하가 뒤따르니, 성능에 민감한 메서드라면 `null` 을 반환하거나 예외를 던지는 편이 나을 수 있다. 그리고 **옵셔널을 반환값 이외의 용도로 쓰는 경우는 매우 드물다.**(매우 동감!!)<br>
+값을 반환하지 못할 가능성이 있고, 호출할 때 마다 반환값이 있을 가능성을 염두에 둬야 하는 메서드라면 옵셔널을 반환해야 할 상황일 수 있다. 하지만 옵셔널 반환에는 성능저하가 뒤따르니, 성능에 민감한 메서드라면 `null` 을 반환하거나 예외를 던지는 편이 나을 수 있다. 그리고 **옵셔널을 반환값 이외의 용도로 쓰는 경우는 매우 드물다.**<br>
 
 <br>
 
@@ -339,39 +337,191 @@ Optional.empty
 
 <br>
 
-나머지는 내일부터...!!!
-
 **Optional.flatMap**<br>
 
+> 참고한 예제 : [Java 8 Optional flatMap() Method Example](https://java8example.blogspot.com/2019/08/optional-flatmap.html) <br>
 
+Optional 이 아니더라도 flatMap 은 보통 Stream 에서는 Stream 안에서 Stream을 만들어내서 서로 다른 두 Stream을 합칠때 사용하는 편이다. flatMap 에 대해 감이 잘 안잡힌다면 [은혜로운 flatMap](https://github.com/soon-good/modern-java-in-action/blob/develop/%EC%9E%90%EB%B0%94%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%A5%BC-%EC%9C%84%ED%95%9C-97%EA%B0%80%EC%A7%80-%EC%A0%9C%EC%95%88/47.%EC%9D%80%ED%98%9C%EB%A1%9C%EC%9A%B4-flatMap-%EB%8B%A4%EB%8B%88%EC%97%98-%EC%9D%B4%EB%85%B8%ED%98%B8%EC%82%AC.md) 을 참고하자.<br>
 
+**예제 1)**<br>
 
+`hello2` 는 옵셔널 하나를 감싸는 중첩 옵셔널이다.<br>
 
-## isPresent
+즉 `hello2` 는 옵셔널 두개가 중첩되어 있다.<br>
+
+그런데 아래 구문을 실행하고 나면 중첩되어 있던 `Optional` 이  `Optional` 하나로 변환되는 것을 확인할 수 있다.
+
+```java
+@Test
+public void TEST_OPTIONAL_FLATMAP_CASE1(){
+    Optional<String> hello1 = Optional.of("Hello1");
+    Optional<Optional<String>> hello2 = Optional.of(hello1);
+
+    Optional<String> result = hello2.flatMap(optHello -> optHello.map(String::toUpperCase));
+    System.out.println(result);
+
+    assertThat(result).isNotEmpty();
+}
+```
 
 <br>
 
+출력결과<br>
 
+```plain
+Optional[HELLO1]
+```
 
+<br>
 
+예제 2)<br>
 
+- `--1)`
+  - `Optional<Optional<Optional<Double>>> ` 타입의 `calorie3` 를 그대로 출력하고 있다.
+- `--2)` 
+  - `Optional<Optional<Optional<Double>>>` 을 `Optional<Double>` 로 변환해서 출력하고 있다.
+- `--3)`
+  - `Optional<<Optional<Optional<Double>>>`  을 `Optional<Double>` 로 변환해서 출력하고 있다.
 
+`--2` 와 `--3` 의 차이점은 중간에 `Optional.isPresent()` 로 값이 존재하는지 처리를 할지 `Optional.map` 메서드로 null 이 없으면 없는대로 리턴하게끔 처리를 할지 결정한다는 점이 다르다. 두 코드 모두 의도하는 결과값은 같다. 두 방식중에 마음에 드는 것을 사용하면 될 것 같다.<br>
 
+```java
+@Test
+public void TEST_OPTIONAL_FLATMAP_CASE2(){
+    Optional<Double> calorie = Optional.of(1.1D);
+    Optional<Optional<Double>> calorie2 = Optional.of(calorie);
+    Optional<Optional<Optional<Double>>> calorie3 = Optional.of(calorie2);
 
+    System.out.println(calorie3); 		// -- 1)
 
+    Optional<Double> calorieData1 = calorie3.flatMap(optOptCalorie -> optOptCalorie.flatMap(
+        optCalorie -> {
+            if (optCalorie.isPresent()) {
+                return Optional.of(optCalorie.get() * 1000);
+            }
+            return Optional.empty();
+        })
+                                                    );
 
+    System.out.println(calorieData1); 	// -- 2)
 
+    Optional<Double> calorieData2 = calorie3.flatMap(optOptCalorie -> optOptCalorie.flatMap(
+        optCalorie -> {
+            return optCalorie.map(aDouble -> aDouble * 1000);
+        })
+                                                    );
 
+    System.out.println(calorieData2);	// -- 3)
+}
+```
 
+<br>
 
+출력결과<br>
 
+```plain
+Optional[Optional[Optional[1.1]]]
+Optional[1100.0]
+Optional[1100.0]
+```
 
+<br>
 
+예제 3)<br>
 
+```java
+@Test
+@DisplayName("null 값을 flatMap 으로 돌릴 경우의 예제")
+public void TEST_OPTIONAL_FLATMAP_NULL_VALUE(){
+    Optional<Double> emptyCalorie = Optional.ofNullable(null);
+    Optional<Double> flatMappedEmptyCalorie = emptyCalorie.flatMap(calorie -> Optional.of(Double.MAX_VALUE));
 
+    System.out.println(flatMappedEmptyCalorie);
+}
+```
 
+<br>
 
+출력결과<br>
 
+```plain
+Optional.empty
+```
 
+<br>
 
+## `Optional.isPresent` , `Optional.ifPresent`  ,`Optional.map`
 
+Optional.isPresent
+
+```java
+@Test
+public void OPTIONAL_IS_PRESENT(){
+    String bookName = null;
+    if(Optional.ofNullable(bookName).isPresent()){
+        System.out.println(bookName.length());
+    }
+}
+```
+
+<br>
+
+Optional.ifPresent
+
+```java
+@Test
+public void OPTIONAL_IF_RESENT_TEST(){
+    String bookName = null;
+    Optional.ofNullable(bookName).ifPresent(book -> System.out.println(book));
+}
+```
+
+<br>
+
+Optional.map<br>
+
+```java
+@Test
+public void OPTIONAL_MAP_TEST(){
+    String bookName = null;
+    Optional<Integer> len = Optional.ofNullable(bookName)
+        .map(book -> book.length());
+
+    len.ifPresent(l -> System.out.println(l));
+}
+```
+
+<br>
+
+## 옵셔널의 장점
+
+- 불변성
+- 편리함
+
+계속 정리
+
+<br>
+
+## 옵셔널 반환하는게 언제나 득이 되는 것은 아니다.
+
+내일정리... 시간이 없어요 ㅠㅠ 이번 옵셔널 챕터는 왜이렇게 내용이 많은 것인가...<br>
+
+<br>
+
+## 오늘 황당했던 일
+
+퇴사를 한달 앞두고 있고, 다음에 들어갈 회사가 없기에 실직 상태가 한달 이상 될수도 있기에 어느정도 쳐낼수 있는 것들은 쳐내고 있는 중인데, 굉장히 어이 없는 이야기를 들었다.<br>
+
+데이터 애플리케이션을 개발하면서, ThreadPoolExecutor 를 직접 구현해서 작성한 코드가 있었다. 이것을 어떤 사람들에게 인수인계를 했었다. FixedTheadPool 이든 뭐든, 상관 없이 이 사람들은 Executor 의 동작 방식을 전혀 모른다는 것을 깨달았다. 개념을 찾아볼 생각 조차도 안한것 같았다. 테스트 코드나 main 문에서도 실행시켜볼 생각을 안했다는 점에서 한번 충격먹었고, 감으로 때려잡은 코드를 수정해서 그대로 상용으로 내보냈다는 점에서 두번 충격받았었다.<br>
+
+지금은 Thread 설정을 인수인계를 받은 사람들이 멋대로 고친게 안되서 인스턴스 스펙을 계속 올리고, 래빗엠큐 concurrent 옵션을 올려서 코어수를 소비하고 있는걸로 보였는데, 처음 입사때로 상황이 원복된거랑 다른게 없는것 같다. 뭘 고칠때는 BEFORE, AFTER 를 비교할 수 있게끔 해야 하는데, 그런것도 없이 상상만으로 상용에 들이미는 사고방식인데, 정말 이제는 포기했다. 그냥 말이 안통한다. 뭘 하기전에 물어보지도 않는다. 비동기라서 그렇게 하지말라고 이야기했는데 그게 무슨 뜻인지도 이해못했나 보다 싶었다.<br>
+
+아예 Executor와 submit이 어떻게 동작하는지도 모르고 코어 수와 인스턴스 스펙만 수정해서 상용에 들이밀고 있는 듯해보였다.<br>
+
+<br>
+
+한달 뒤에 실직자 신세라서, 가급적이면 공부할 시간과 이력서 쓸 시간, 코딩테스트 연습할 시간, 사이드 프로젝트 진행시간이 있어야 하는데 그 마저도 조금의 시간이라도 안주고 있어서 워킹 타임에는 인수인계 문서 작성, 테스트 케이스 작성을 몰빵해서 하고 있는데, 괜히 아는 척 했다가, 한달 뒤에 한강다리 밑에서 노숙하게 될 것 같아서 모르는척 꿀먹은 벙어리처럼 있어야 겠다 싶었다.<br>
+
+지금도 이직준비하느라 하루에 2시간씩 자면서 출근하고 있는데, 괜히 조금 아는 척 더 하다가는 인생 종치는 소리 들을 것 같은 기분이 들었었다. 진짜 액땜 제대로 하는구나 싶다.<br>
+
+<br>
